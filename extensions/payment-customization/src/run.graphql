@@ -1,0 +1,32 @@
+query RunInput {
+  cart {
+    buyerIdentity {
+      customer {
+        id
+        displayName
+        email
+        hasTags ( tags: ["Pay by invoice"]) {
+          hasTag
+          tag
+        }
+        metafield (key:"custom.locality", namespace:"customer.metafields"){
+          value
+        }
+      }
+      purchasingCompany {
+        company {
+          name
+        }
+      }
+    }
+    cost {
+      totalAmount {
+        amount
+      }
+    }
+  }
+  paymentMethods {
+    id
+    name
+  }
+}
