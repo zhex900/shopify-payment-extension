@@ -14,22 +14,27 @@ const ssm = new SSM({
   region: process.env.REGION,
 });
 
-console.log("Resource.ApiKey.value", Resource.ApiKey.value);
-console.log("Resource.ApiSecret.value", Resource.ApiSecret.value);
+let appUrl = process.env.SHOPIFY_APP_URL;
 
-// read from ssm parameter
-const appUrl = (
-  await ssm.getParameter({
-    Name: "/shopify-payment-extension/jakehe/app-url",
-  })
-)?.Parameter?.Value;
+if (!appUrl) {
+  if (!process.env.SHOPIFY_APP_URL_PARAMETER_NAME) {
+    throw new Error("SHOPIFY_APP_URL_PARAMETER_NAME is required");
+  }
+  appUrl = (
+    await ssm.getParameter({
+      Name: process.env.SHOPIFY_APP_URL_PARAMETER_NAME,
+    })
+  )?.Parameter?.Value;
+}
 
-console.log("---->appUrl", appUrl);
+if (!appUrl) {
+  throw new Error("SHOPIFY_APP_URL is required");
+}
 
 const shopify = shopifyApp({
   apiKey: Resource.ApiKey.value,
   apiSecretKey: Resource.ApiSecret.value,
-  appUrl: process.env.SHOPIFY_APP_URL || appUrl || "",
+  appUrl,
   apiVersion: ApiVersion.April24,
   scopes: process.env.SCOPES?.split(","),
   authPathPrefix: "/auth",

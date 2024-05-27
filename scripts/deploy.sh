@@ -21,3 +21,7 @@ aws ssm put-parameter \
     --value "$shopifyAppUrl" \
     --type "String" \
     --overwrite | jq
+
+sed -i '' "s|https.*com|$shopifyAppUrl|g" ./shopify.app.toml
+
+shopify app deploy --force

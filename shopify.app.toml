@@ -3,7 +3,7 @@
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-application_url = "https://cardiovascular-scale-received-economic.trycloudflare.com"
+application_url = "https://d2zl0po73iay2p.cloudfront.net"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_customers,read_payment_customizations,write_payment_customization
 
 [auth]
 redirect_urls = [
-  "https://cardiovascular-scale-received-economic.trycloudflare.com/auth/callback",
-  "https://cardiovascular-scale-received-economic.trycloudflare.com/auth/shopify/callback",
-  "https://cardiovascular-scale-received-economic.trycloudflare.com/api/auth/callback"
+  "https://d2zl0po73iay2p.cloudfront.net/auth/callback",
+  "https://d2zl0po73iay2p.cloudfront.net/auth/shopify/callback",
+  "https://d2zl0po73iay2p.cloudfront.net/api/auth/callback"
 ]
 
 [webhooks]
@@ -27,3 +27,4 @@ api_version = "2024-04"
 
 [pos]
 embedded = false
+
