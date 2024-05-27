@@ -2,13 +2,13 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 
-import { login } from "../../shopify.server";
+import { authenticate, login } from "~/shopify.server";
 
 import styles from "./styles.module.css";
+import { PAYMENT_CUSTOMIZATION_NAME } from "~/constant";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
-
   if (url.searchParams.get("shop")) {
     throw redirect(`/app?${url.searchParams.toString()}`);
   }

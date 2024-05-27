@@ -3,7 +3,7 @@
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-application_url = "https://d2zl0po73iay2p.cloudfront.net"
+application_url = "https://near-central-gui-routes.trycloudflare.com"
 embedded = true
 
 [build]
@@ -13,13 +13,13 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_customers,read_payment_customizations,write_payment_customizations,write_products"
+scopes = "read_payment_customizations,write_payment_customizations,write_products"
 
 [auth]
 redirect_urls = [
-  "https://d2zl0po73iay2p.cloudfront.net/auth/callback",
-  "https://d2zl0po73iay2p.cloudfront.net/auth/shopify/callback",
-  "https://d2zl0po73iay2p.cloudfront.net/api/auth/callback"
+  "https://near-central-gui-routes.trycloudflare.com/auth/callback",
+  "https://near-central-gui-routes.trycloudflare.com/auth/shopify/callback",
+  "https://near-central-gui-routes.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
@@ -27,4 +27,3 @@ api_version = "2024-04"
 
 [pos]
 embedded = false
-
