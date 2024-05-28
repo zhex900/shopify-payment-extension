@@ -3,7 +3,7 @@
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-application_url = "https://warranties-dealer-coffee-realty.trycloudflare.com"
+application_url = "https://d3ku2pz5otzlog.cloudfront.net"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_customers,read_payment_customizations,write_payment_customization
 
 [auth]
 redirect_urls = [
-  "https://warranties-dealer-coffee-realty.trycloudflare.com/auth/callback",
-  "https://warranties-dealer-coffee-realty.trycloudflare.com/auth/shopify/callback",
-  "https://warranties-dealer-coffee-realty.trycloudflare.com/api/auth/callback"
+  "https://d3ku2pz5otzlog.cloudfront.net/auth/callback",
+  "https://d3ku2pz5otzlog.cloudfront.net/auth/shopify/callback",
+  "https://d3ku2pz5otzlog.cloudfront.net/api/auth/callback"
 ]
 
 [webhooks]

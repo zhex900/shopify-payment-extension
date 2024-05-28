@@ -41,7 +41,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const customerTags = await queryListCustomerTags(admin);
   console.log("customerTags", JSON.stringify(customerTags, null, 2));
   // get a list of custom payment methods
-  return {};
+  return { customerTags };
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
