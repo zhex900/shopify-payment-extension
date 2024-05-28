@@ -15,14 +15,15 @@ import {
   Button,
   BlockStack,
   Box,
-  List,
   Link,
   InlineStack,
 } from "@shopify/polaris";
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { authenticate } from "~/shopify.server";
-import { PAYMENT_CUSTOMIZATION_NAME } from "~/constant";
-import { queryIsPaymentCustomizationsInstalled } from "~/graphql/queryIsPaymentCustomizationsInstalled";
+import {
+  queryListCustomerTags,
+  queryIsPaymentCustomizationsInstalled,
+} from "~/graphql";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin } = await authenticate.admin(request);
@@ -35,6 +36,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     console.log("redirect to install");
     throw redirect(`/app/install?${url.searchParams.toString()}`);
   }
+
+  // get a list of customer tags
+  const customerTags = await queryListCustomerTags(admin);
+  console.log("customerTags", JSON.stringify(customerTags, null, 2));
+  // get a list of custom payment methods
   return {};
 };
 
@@ -123,7 +129,7 @@ export default function Index() {
     "gid://shopify/Product/",
     "",
   );
-
+  console.log("data", data);
   useEffect(() => {
     if (productId) {
       shopify.toast.show("Product created");

@@ -9,16 +9,28 @@ export function run(input: RunInput): FunctionRunResult {
 
   // pay by invoice tag is present
   if (
-    hasTags &&
-    hasTags.length > 0 &&
-    hasTags.filter((tag) => !tag.hasTag).length === 0
+    (hasTags &&
+      hasTags.length > 0 &&
+      hasTags.filter((tag) => !tag.hasTag).length === 0) ||
+    !input.paymentCustomization.metafield
   ) {
+    return NO_CHANGES;
+  }
+
+  const configuration = JSON.parse(
+    input.paymentCustomization.metafield?.value,
+  ) as {
+    tag: string;
+    paymentMethod: string;
+  };
+
+  if (!configuration.tag || !configuration.paymentMethod) {
     return NO_CHANGES;
   }
 
   // Find the payment method to hide
   const hidePaymentMethod = input.paymentMethods.find((method) =>
-    method.name.includes("Pay by invoice"),
+    method.name.includes(configuration.paymentMethod),
   );
 
   if (!hidePaymentMethod) {

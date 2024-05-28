@@ -1,11 +1,13 @@
-query RunInput {
+#https://shopify.dev/docs/apps/functions/input-output/variables-queries
+#https://shopify.dev/docs/apps/checkout/payments/config
+query RunInput($tag: String!) {
   cart {
     buyerIdentity {
       customer {
         id
         displayName
         email
-        hasTags ( tags: ["Pay by invoice"]) {
+        hasTags ( tags: [$tag]) {
           hasTag
           tag
         }
@@ -28,5 +30,10 @@ query RunInput {
   paymentMethods {
     id
     name
+  }
+  paymentCustomization {
+    metafield(namespace: "payment-customization", key: "function-configuration") {
+      value
+    }
   }
 }

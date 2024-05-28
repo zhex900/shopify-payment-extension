@@ -18,3 +18,7 @@ type = "function"
   [extensions.ui.paths]
   create = "/"
   details = "/"
+
+  [extensions.input.variables]
+  namespace = "payment-customization"
+  key = "function-configuration"
