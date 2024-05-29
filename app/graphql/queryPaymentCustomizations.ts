@@ -74,6 +74,7 @@ export const queryPaymentCustomizationsConfiguration = async (
       | {
           tag: string;
           paymentMethod: string;
+          availableManualPaymentMethods: string[];
         }
       | undefined,
   };

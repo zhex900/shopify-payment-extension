@@ -36,5 +36,5 @@ export const queryListManualPaymentMethods = async (
     ({ translatableContent }) => {
       return translatableContent.find((t) => t.key === "name")?.value;
     },
-  );
+  ) as string[];
 };

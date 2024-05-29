@@ -3,7 +3,7 @@
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-application_url = "https://bonds-subdivision-trails-optimize.trycloudflare.com"
+application_url = "https://previews-conversations-reminder-paintball.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_customers,read_payment_customizations,read_translations,write_pay
 
 [auth]
 redirect_urls = [
-  "https://bonds-subdivision-trails-optimize.trycloudflare.com/auth/callback",
-  "https://bonds-subdivision-trails-optimize.trycloudflare.com/auth/shopify/callback",
-  "https://bonds-subdivision-trails-optimize.trycloudflare.com/api/auth/callback"
+  "https://previews-conversations-reminder-paintball.trycloudflare.com/auth/callback",
+  "https://previews-conversations-reminder-paintball.trycloudflare.com/auth/shopify/callback",
+  "https://previews-conversations-reminder-paintball.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

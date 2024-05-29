@@ -30,6 +30,7 @@ query RunInput($tag: String!) {
   paymentMethods {
     id
     name
+
   }
   paymentCustomization {
     metafield(namespace: "payment-customization", key: "function-configuration") {

@@ -42,7 +42,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const customerTags = await queryListCustomerTags(graphql);
   const paymentMethods = await queryListManualPaymentMethods(graphql);
-
+  console.log({
+    customerTags,
+    paymentMethods,
+    configuration,
+    paymentCustomizationId,
+  });
   return {
     customerTags,
     paymentMethods,
@@ -54,13 +59,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { admin } = await authenticate.admin(request);
   const formData = await request.formData();
-
-  const data = Object.fromEntries(formData) as {
-    tagValue: string;
-    paymentMethodValue: string;
-    paymentCustomizationId: string;
-  };
-
+  const data = Object.fromEntries(formData);
+  console.log("save", JSON.stringify(data, null, 2));
   const response = await admin.graphql(
     `#graphql
     mutation save($metafield: MetafieldsSetInput!) {
@@ -83,6 +83,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
           value: JSON.stringify({
             tag: data.tagValue,
             paymentMethod: data.paymentMethodValue,
+            paymentMethods: JSON.parse(data.paymentMethods as string),
           }),
           type: "json",
         },
@@ -118,12 +119,14 @@ export default function Index() {
   const [paymentMethodValue, setPaymentMethodValue] = useState(
     configuration?.paymentMethod || "",
   );
+
   const saveHandler = () =>
     submit(
       {
         tagValue,
         paymentMethodValue,
         paymentCustomizationId,
+        paymentMethods: JSON.stringify(paymentMethods),
       },
       { replace: true, method: "POST" },
     );
