@@ -3,7 +3,7 @@
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-application_url = "https://d3ku2pz5otzlog.cloudfront.net"
+application_url = "https://bonds-subdivision-trails-optimize.trycloudflare.com"
 embedded = true
 
 [build]
@@ -13,13 +13,13 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_customers,read_payment_customizations,write_payment_customizations"
+scopes = "read_customers,read_payment_customizations,read_translations,write_payment_customizations"
 
 [auth]
 redirect_urls = [
-  "https://d3ku2pz5otzlog.cloudfront.net/auth/callback",
-  "https://d3ku2pz5otzlog.cloudfront.net/auth/shopify/callback",
-  "https://d3ku2pz5otzlog.cloudfront.net/api/auth/callback"
+  "https://bonds-subdivision-trails-optimize.trycloudflare.com/auth/callback",
+  "https://bonds-subdivision-trails-optimize.trycloudflare.com/auth/shopify/callback",
+  "https://bonds-subdivision-trails-optimize.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

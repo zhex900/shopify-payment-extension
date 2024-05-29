@@ -1,33 +1,11 @@
-import { PAYMENT_CUSTOMIZATION_NAME } from "~/constant";
+import type { AdminGraphqlClient } from "~/shopify.server";
 
-//"data": {
-//     "translatableResources": {
-//       "nodes": [
-//         {
-//           "translatableContent": [
-//             {
-//               "key": "name",
-//               "value": "Pay by invoice"
-//             },
-//             {
-//               "key": "message",
-//               "value": ""
-//             },
-//             {
-//               "key": "before_payment_instructions",
-//               "value": ""
-//             }
-//           ]
-//         }
-//       ]
-//     }
-//   },
 interface translatableResourcesResponse {
   data: {
     translatableResources: {
       nodes: {
         translatableContent: {
-          key: string;
+          key: "name" | "message" | "payment_instructions";
           value: string;
         }[];
       }[];
@@ -35,10 +13,12 @@ interface translatableResourcesResponse {
   };
 }
 
-export const queryListManualPaymentMethods = async (admin: any) => {
+export const queryListManualPaymentMethods = async (
+  graphql: AdminGraphqlClient,
+) => {
   const response = (await (
-    await admin.graphql(
-      `#graphql
+    await graphql(`
+      #graphql
       query {
         translatableResources(first: 100, resourceType: PAYMENT_GATEWAY) {
           nodes {
@@ -49,10 +29,12 @@ export const queryListManualPaymentMethods = async (admin: any) => {
           }
         }
       }
-      `,
-    )
+    `)
   ).json()) as translatableResourcesResponse;
 
-  // cons;
-  return response;
+  return response.data.translatableResources.nodes.map(
+    ({ translatableContent }) => {
+      return translatableContent.find((t) => t.key === "name")?.value;
+    },
+  );
 };

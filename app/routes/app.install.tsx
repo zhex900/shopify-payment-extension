@@ -16,19 +16,20 @@ import {
   Box,
   InlineStack,
 } from "@shopify/polaris";
-import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
+import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "~/shopify.server";
 import { PAYMENT_CUSTOMIZATION_NAME } from "~/constant";
-import { queryIsPaymentCustomizationsInstalled } from "~/graphql/queryIsPaymentCustomizationsInstalled";
+import { queryPaymentCustomizationsConfiguration } from "~/graphql/queryPaymentCustomizations";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin } = await authenticate.admin(request);
 
-  const isPaymentCustomizationsInstalled =
-    await queryIsPaymentCustomizationsInstalled(admin);
+  const { isInstalled } = await queryPaymentCustomizationsConfiguration(
+    admin.graphql,
+  );
 
   return {
-    isPaymentCustomizationsInstalled,
+    isInstalled,
   };
 };
 
@@ -85,7 +86,7 @@ export default function Index() {
   const nav = useNavigation();
   const actionData = useActionData<typeof action>();
   const submit = useSubmit();
-  const shopify = useAppBridge();
+  // const shopify = useAppBridge();
   const data = useLoaderData<typeof loader>();
   const isLoading =
     ["loading", "submitting"].includes(nav.state) && nav.formMethod === "POST";
@@ -106,14 +107,14 @@ export default function Index() {
                   </Text>
                 </BlockStack>
 
-                {data.isPaymentCustomizationsInstalled && (
+                {data.isInstalled && (
                   <Text as="p">Payment extension is installed</Text>
                 )}
                 <InlineStack gap="300">
                   <Button
                     loading={isLoading}
                     onClick={install}
-                    disabled={data.isPaymentCustomizationsInstalled}
+                    disabled={data.isInstalled}
                   >
                     Install payment extension
                   </Button>

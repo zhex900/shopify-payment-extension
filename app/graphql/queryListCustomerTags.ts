@@ -1,3 +1,5 @@
+import type { AdminGraphqlClient } from "~/shopify.server";
+
 interface CustomerTagsResponse {
   data: {
     customers: {
@@ -15,7 +17,7 @@ interface CustomerTagsResponse {
 }
 
 const fetchCustomerTags =
-  (admin: any) =>
+  (graphql: AdminGraphqlClient) =>
   async (cursor: string | null = null): Promise<CustomerTagsResponse> => {
     const query = `
     query ($cursor: String) {
@@ -33,22 +35,22 @@ const fetchCustomerTags =
     }
   `;
 
-    const response = await admin.graphql(query, { variables: { cursor } });
+    const response = await graphql(query, { variables: { cursor } });
 
     // if (!response.ok) {
     //   throw new Error(`HTTP error! status: ${response.status}`);
     // }
 
-    return response.json();
+    return response.json() as Promise<CustomerTagsResponse>;
   };
 
-export const queryListCustomerTags = async (admin: any) => {
+export const queryListCustomerTags = async (graphql: AdminGraphqlClient) => {
   let allTags: string[] = [];
   let cursor: string | null = null;
   let hasNextPage = true;
 
   while (hasNextPage) {
-    const response = await fetchCustomerTags(admin)(cursor);
+    const response = await fetchCustomerTags(graphql)(cursor);
     const { edges, pageInfo } = response.data.customers;
 
     edges.forEach((edge) => {

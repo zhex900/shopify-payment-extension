@@ -77,3 +77,10 @@ export const unauthenticated = shopify.unauthenticated;
 export const login = shopify.login;
 export const registerWebhooks = shopify.registerWebhooks;
 export const sessionStorage = shopify.sessionStorage;
+export type AdminMain = Awaited<ReturnType<typeof authenticate.admin>>;
+
+export type AdminApiContext = AdminMain["admin"];
+export type AdminApiSession = AdminMain["session"];
+
+export type AdminGraphqlClient = AdminApiContext["graphql"];
+export type AdminRestClient = AdminApiContext["rest"];

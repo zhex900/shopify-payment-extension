@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export REGION=ap-southeast-2 AWS_DEFAULT_REGION=ap-southeast-2 AWS_PROFILE=stream-dev
+
 # Run the command `sst deploy`, pipe output to STD and capture in a variable
 output=$(sst deploy | tee /dev/tty)
 
