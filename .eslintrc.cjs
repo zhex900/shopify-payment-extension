@@ -10,4 +10,9 @@ module.exports = {
   globals: {
     shopify: "readonly"
   },
+  "plugins": ["simple-import-sort"],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
+  },
 };

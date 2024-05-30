@@ -1,7 +1,9 @@
-import { sessionsTable } from "./storage";
-import { appUrlParameter } from "./ssm";
-import toml from "toml";
 import fs from "node:fs";
+
+import toml from "toml";
+
+import { appUrlParameter } from "./ssm";
+import { sessionsTable } from "./storage";
 
 const shopifyAppConfig = toml.parse(
   fs.readFileSync(`${__dirname}/../../../shopify.app.toml`, "utf-8"),

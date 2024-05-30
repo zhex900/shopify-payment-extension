@@ -1,14 +1,15 @@
 import "@shopify/shopify-app-remix/adapters/node";
+
+import { SSM } from "@aws-sdk/client-ssm";
+import { restResources } from "@shopify/shopify-api/rest/admin/2024-04";
 import {
   ApiVersion,
   AppDistribution,
   DeliveryMethod,
   shopifyApp,
 } from "@shopify/shopify-app-remix/server";
-import { restResources } from "@shopify/shopify-api/rest/admin/2024-04";
-import { Resource } from "sst";
 import { DynamoDBSessionStorage } from "@shopify/shopify-app-session-storage-dynamodb";
-import { SSM } from "@aws-sdk/client-ssm";
+import { Resource } from "sst";
 
 const ssm = new SSM({
   region: process.env.REGION,

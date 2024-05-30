@@ -1,55 +1,71 @@
-import type { RunInput, FunctionRunResult } from "../generated/api";
+import { z } from "zod";
+
+import type { FunctionRunResult, RunInput } from "../generated/api";
 
 const NO_CHANGES: FunctionRunResult = {
   operations: [],
 };
-// TODO write tests
+
+const Configuration = z.object({
+  tag: z.string(),
+  paymentMethod: z.string(),
+  paymentMethods: z.string().array(),
+});
+
 export function run(input: RunInput): FunctionRunResult {
-  const hasTags = input.cart.buyerIdentity?.customer?.hasTags;
+  try {
+    const hasTags = input.cart.buyerIdentity?.customer?.hasTags;
 
-  // pay by invoice tag is present
-  const authorized =
-    hasTags &&
-    hasTags.length > 0 &&
-    hasTags.filter((tag) => !tag.hasTag).length === 0;
+    // authorized if the customer has the required tags
+    const authorized =
+      hasTags &&
+      hasTags.length > 0 &&
+      hasTags.filter((tag) => !tag.hasTag).length === 0;
 
-  if (!input.paymentCustomization.metafield) {
+    if (!input.paymentCustomization.metafield) {
+      return NO_CHANGES;
+    }
+
+    const { data: configuration, success } = Configuration.safeParse(
+      JSON.parse(input.paymentCustomization.metafield?.value),
+    );
+
+    if (!success) {
+      return NO_CHANGES;
+    }
+
+    const operations = configuration.paymentMethods
+      .map((method) => {
+        // find the payment method id
+        const id = input.paymentMethods.find((m) =>
+          m.name.includes(method),
+        )?.id;
+        if (
+          // this should not happen
+          !id ||
+          // if authorized, hide all payment methods except the one specified
+          (authorized && method === configuration.paymentMethod)
+        ) {
+          return undefined;
+        }
+        return {
+          hide: {
+            paymentMethodId: id!,
+          },
+        };
+      })
+      // filter out empty operations
+      .filter((operation) => operation) as FunctionRunResult["operations"];
+
+    if (operations.length === 0) {
+      return NO_CHANGES;
+    }
+
+    return {
+      operations,
+    };
+  } catch (e) {
+    console.error(e);
     return NO_CHANGES;
   }
-
-  const configuration = JSON.parse(
-    input.paymentCustomization.metafield?.value,
-  ) as {
-    tag: string;
-    paymentMethod: string;
-    paymentMethods: string[];
-  };
-
-  if (!configuration.tag || !configuration.paymentMethod) {
-    return NO_CHANGES;
-  }
-
-  const operations = configuration.paymentMethods
-    .map((method) => {
-      const id = input.paymentMethods.find((m) => m.name.includes(method))?.id;
-      if (!id || (authorized && method === configuration.paymentMethod)) {
-        return undefined;
-      }
-      return {
-        hide: {
-          paymentMethodId: id!,
-        },
-      };
-    })
-    .filter(
-      (operation) => operation !== undefined,
-    ) as FunctionRunResult["operations"];
-
-  if (operations.length === 0) {
-    return NO_CHANGES;
-  }
-
-  return {
-    operations,
-  };
 }

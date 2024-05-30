@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
@@ -7,26 +6,28 @@ import {
   useNavigation,
   useSubmit,
 } from "@remix-run/react";
+import { useAppBridge } from "@shopify/app-bridge-react";
 import {
-  Page,
-  Text,
-  Card,
   BlockStack,
   Box,
-  InlineGrid,
-  ButtonGroup,
   Button,
+  ButtonGroup,
+  Card,
+  InlineGrid,
   InlineStack,
+  Page,
+  Text,
 } from "@shopify/polaris";
-import { ProductFilledIcon, PaymentFilledIcon } from "@shopify/polaris-icons";
-import { authenticate } from "~/shopify.server";
+import { PaymentFilledIcon, ProductFilledIcon } from "@shopify/polaris-icons";
+import { useEffect, useState } from "react";
+
+import { AutocompleteField } from "~/components/autocomplete-field";
 import {
   queryListCustomerTags,
   queryListManualPaymentMethods,
   queryPaymentCustomizationsConfiguration,
 } from "~/graphql";
-import { AutocompleteField } from "~/components/autocomplete-field";
-import { useAppBridge } from "@shopify/app-bridge-react";
+import { authenticate } from "~/shopify.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin } = await authenticate.admin(request);
@@ -145,10 +146,9 @@ export default function Index() {
                 Configuration
               </Text>
               <Text as="p" variant="bodyMd">
-                Select a customer tag and manual payment method. This manual
-                payment method will only be available to customers with the
-                selected tag. Customer without the selected tag will not see the
-                manual payment method.
+                The selected manual payment method will only be available to
+                customers with the selected tag. All other manual payment
+                methods will be hidden.
               </Text>
             </BlockStack>
           </Box>

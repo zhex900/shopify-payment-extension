@@ -53,9 +53,9 @@ export const queryListCustomerTags = async (graphql: AdminGraphqlClient) => {
     const response = await fetchCustomerTags(graphql)(cursor);
     const { edges, pageInfo } = response.data.customers;
 
-    edges.forEach((edge) => {
+    for (const edge of edges) {
       allTags = [...allTags, ...edge.node.tags];
-    });
+    }
 
     hasNextPage = pageInfo.hasNextPage;
     cursor = pageInfo.endCursor;

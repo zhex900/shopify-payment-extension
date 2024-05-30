@@ -6,20 +6,21 @@ import {
   useNavigation,
   useSubmit,
 } from "@remix-run/react";
+import { TitleBar } from "@shopify/app-bridge-react";
 import {
-  Page,
-  Layout,
-  Text,
-  Card,
-  Button,
   BlockStack,
   Box,
+  Button,
+  Card,
   InlineStack,
+  Layout,
+  Page,
+  Text,
 } from "@shopify/polaris";
-import { TitleBar } from "@shopify/app-bridge-react";
-import { authenticate } from "~/shopify.server";
+
 import { PAYMENT_CUSTOMIZATION_NAME } from "~/constant";
 import { queryPaymentCustomizationsConfiguration } from "~/graphql/queryPaymentCustomizations";
+import { authenticate } from "~/shopify.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin } = await authenticate.admin(request);
@@ -86,7 +87,6 @@ export default function Index() {
   const nav = useNavigation();
   const actionData = useActionData<typeof action>();
   const submit = useSubmit();
-  // const shopify = useAppBridge();
   const data = useLoaderData<typeof loader>();
   const isLoading =
     ["loading", "submitting"].includes(nav.state) && nav.formMethod === "POST";

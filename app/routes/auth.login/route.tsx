@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
@@ -11,8 +10,9 @@ import {
   Text,
   TextField,
 } from "@shopify/polaris";
-import polarisTranslations from "@shopify/polaris/locales/en.json";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
+import polarisTranslations from "@shopify/polaris/locales/en.json";
+import { useState } from "react";
 
 import { login } from "~/shopify.server";
 

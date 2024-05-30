@@ -1,6 +1,5 @@
 import { Autocomplete, Icon } from "@shopify/polaris";
-
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useCallback, useEffect,useMemo, useState } from "react";
 
 export function AutocompleteField({
   icon,
