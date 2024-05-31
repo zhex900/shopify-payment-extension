@@ -8,11 +8,11 @@ module.exports = {
     "prettier",
   ],
   globals: {
-    shopify: "readonly"
+    shopify: "readonly",
   },
-  "plugins": ["simple-import-sort"],
-  "rules": {
+  plugins: ["simple-import-sort"],
+  rules: {
     "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
+    "simple-import-sort/exports": "error",
   },
 };

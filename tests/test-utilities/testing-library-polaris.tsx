@@ -1,8 +1,9 @@
-import { render, RenderOptions } from "@testing-library/react";
 import { PolarisTestProvider } from "@shopify/polaris";
 import translations from "@shopify/polaris/locales/en.json";
+import type { RenderOptions } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { ReactNode, ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 
 function ShopifyAppProvider({ children }: { children: ReactNode }) {
   const elements = children as unknown as ReactElement;

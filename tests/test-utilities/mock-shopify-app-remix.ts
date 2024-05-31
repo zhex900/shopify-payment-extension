@@ -1,10 +1,10 @@
-import { LATEST_API_VERSION as apiVersion } from "@shopify/shopify-api";
-import { MemorySessionStorage } from "@shopify/shopify-app-session-storage-memory";
-import { vi } from "vitest";
-import Shopify from "@shopify/shopify-app-remix";
-
-import dotenv from "dotenv";
 import path from "node:path";
+
+import { LATEST_API_VERSION as apiVersion } from "@shopify/shopify-api";
+import type Shopify from "@shopify/shopify-app-remix";
+import { MemorySessionStorage } from "@shopify/shopify-app-session-storage-memory";
+import dotenv from "dotenv";
+import { vi } from "vitest";
 
 dotenv.config({
   path: path.resolve(__dirname, "../test-utilities/test.env"),

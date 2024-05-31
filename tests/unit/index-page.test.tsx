@@ -1,8 +1,9 @@
-import { test, expect } from "vitest";
-import { render, screen, user } from "@testing-library/polaris";
 import { createRemixStub } from "@remix-run/testing";
-import IndexPage from "~/routes/app._index";
 import { waitFor } from "@testing-library/dom";
+import { render, screen, user } from "@testing-library/polaris";
+import { expect, test } from "vitest";
+
+import IndexPage from "~/routes/app._index";
 
 test("display tag and payment value from configuration", async () => {
   const tag = "customer-tag";

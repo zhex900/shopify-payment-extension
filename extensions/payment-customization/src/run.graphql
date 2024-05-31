@@ -7,11 +7,11 @@ query RunInput($tag: String!) {
         id
         displayName
         email
-        hasTags ( tags: [$tag]) {
+        hasTags(tags: [$tag]) {
           hasTag
           tag
         }
-        metafield (key:"custom.locality", namespace:"customer.metafields"){
+        metafield(key: "custom.locality", namespace: "customer.metafields") {
           value
         }
       }
@@ -30,10 +30,12 @@ query RunInput($tag: String!) {
   paymentMethods {
     id
     name
-
   }
   paymentCustomization {
-    metafield(namespace: "payment-customization", key: "function-configuration") {
+    metafield(
+      namespace: "payment-customization"
+      key: "function-configuration"
+    ) {
       value
     }
   }

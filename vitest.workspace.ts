@@ -1,1 +1,1 @@
-export default ['tests/*/vitest.config.{ts,js}'];
+export default ["tests/*/vitest.config.{ts,js}"];
