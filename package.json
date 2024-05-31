@@ -11,7 +11,7 @@
     "env": "shopify app env",
     "generate": "shopify app generate",
     "graphql-codegen": "graphql-codegen",
-    "lint": "tsc; eslint --cache --cache-location ./node_modules/.cache/eslint .; prettier --check .",
+    "lint": "tsc --noEmit; eslint --cache --cache-location ./node_modules/.cache/eslint .; prettier --check .",
     "shopify": "shopify",
     "start": "remix-serve ./build/server/index.js",
     "vite": "vite",
