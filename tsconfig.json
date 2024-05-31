@@ -1,5 +1,5 @@
 {
-  "include": ["env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["env.d.ts", ".sst/types.generated.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "strict": true,
@@ -22,7 +22,6 @@
         "./tests/test-utilities/testing-library-polaris"
       ]
     },
-    "typeRoots": ["./node_modules/@types", ".sst/types.generated.ts"],
     "types": ["node", "vitest/globals"]
   }
 }
