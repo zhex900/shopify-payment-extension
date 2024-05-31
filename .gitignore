@@ -13,4 +13,8 @@ database.sqlite
 .env
 
 # sst
-.sst
+.sst/.pulumi
+.sst/eval
+.sst/platform
+.sst/*.log
+.sst/stage
