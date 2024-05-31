@@ -10,12 +10,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.11.1
           cache: 'npm'
       - name: Install dependencies
         run: npm install
       - name: typescript lint
         run: |
+          node -v
+          npm -v
           rm -rf sst.config.ts infrastructure
           npx tsc --noEmit
       - name: lint
