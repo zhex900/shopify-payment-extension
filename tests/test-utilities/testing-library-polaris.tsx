@@ -12,7 +12,7 @@ function ShopifyAppProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const shopifyRender = (ui: ReactElement, options: RenderOptions) =>
+const shopifyRender = (ui: ReactElement, options?: RenderOptions) =>
   render(ui, { wrapper: ShopifyAppProvider, ...options });
 
 // re-export everything

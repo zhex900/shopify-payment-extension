@@ -22,7 +22,7 @@ export default mergeConfig(
       alias: {
         "@testing-library/polaris": path.resolve(
           __dirname,
-          "../test-utilities/testing-library-polaris.jsx",
+          "../test-utilities/testing-library-polaris.tsx",
         ),
       },
     },

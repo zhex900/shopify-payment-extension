@@ -17,7 +17,10 @@
     "target": "ES2022",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "@testing-library/polaris": [
+        "./tests/test-utilities/testing-library-polaris"
+      ]
     },
     "types": ["node", "vitest/globals"]
   }
