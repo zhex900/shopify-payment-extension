@@ -7,23 +7,23 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/setup-node@v4
-#        with:
-#          node-version: 20
-#          cache: 'npm'
-#      - name: Install dependencies
-#        run: npm install
-#      - name: typescript lint
-#        run: |
-#          node -v
-#          npm -v
-#          rm -rf sst.config.ts infrastructure
-#          npx tsc --noEmit
-#      - name: lint
-#        run: npx eslint .
-#      - name: prettier check
-#        run: npx prettier --check .
+  #      - uses: actions/checkout@v4
+  #      - uses: actions/setup-node@v4
+  #        with:
+  #          node-version: 20
+  #          cache: 'npm'
+  #      - name: Install dependencies
+  #        run: npm install
+  #      - name: typescript lint
+  #        run: |
+  #          node -v
+  #          npm -v
+  #          rm -rf sst.config.ts infrastructure
+  #          npx tsc --noEmit
+  #      - name: lint
+  #        run: npx eslint .
+  #      - name: prettier check
+  #        run: npx prettier --check .
   frontend-test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
