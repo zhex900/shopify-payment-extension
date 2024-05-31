@@ -22,6 +22,7 @@
         "./tests/test-utilities/testing-library-polaris"
       ]
     },
+    "typeRoots": ["./node_modules/@types", ".sst/types.generated.ts"],
     "types": ["node", "vitest/globals"]
   }
 }
