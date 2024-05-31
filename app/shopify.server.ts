@@ -33,8 +33,8 @@ if (!appUrl) {
 }
 
 const shopify = shopifyApp({
-  apiKey: Resource.ApiKey.value,
-  apiSecretKey: Resource.ApiSecret.value,
+  apiKey: process.env.SHOPIFY_API_KEY || Resource.ApiKey.value,
+  apiSecretKey: process.env.SHOPIFY_API_SECRET || Resource.ApiSecret.value,
   appUrl,
   apiVersion: ApiVersion.April24,
   scopes: process.env.SCOPES?.split(","),
@@ -59,6 +59,7 @@ const shopify = shopifyApp({
       await shopify.registerWebhooks({ session });
     },
   },
+  isEmbeddedApp: true,
   future: {
     v3_webhookAdminContext: true,
     v3_authenticatePublic: true,

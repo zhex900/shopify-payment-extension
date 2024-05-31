@@ -1,5 +1,5 @@
 import { Autocomplete, Icon } from "@shopify/polaris";
-import { useCallback, useEffect,useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export function AutocompleteField({
   icon,
@@ -8,6 +8,7 @@ export function AutocompleteField({
   inputValue,
   setInputValue,
   placeholder,
+  errorMessage,
 }: {
   label: string;
   icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -15,6 +16,7 @@ export function AutocompleteField({
   inputValue: string;
   setInputValue: (value: string) => void;
   placeholder: string;
+  errorMessage: string;
 }) {
   const deselectedOptions = useMemo(
     () =>
@@ -86,11 +88,7 @@ export function AutocompleteField({
       prefix={<Icon source={icon} tone="base" />}
       placeholder={placeholder}
       autoComplete="off"
-      error={
-        !isValid
-          ? "The selected item is not valid. Choose an item from the list."
-          : undefined
-      }
+      error={!isValid ? errorMessage : undefined}
     />
   );
 

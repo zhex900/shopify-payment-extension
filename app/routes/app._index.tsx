@@ -43,12 +43,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const customerTags = await queryListCustomerTags(graphql);
   const paymentMethods = await queryListManualPaymentMethods(graphql);
-  console.log({
-    customerTags,
-    paymentMethods,
-    configuration,
-    paymentCustomizationId,
-  });
+
   return {
     customerTags,
     paymentMethods,
@@ -61,8 +56,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { admin } = await authenticate.admin(request);
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  console.log("save", JSON.stringify(data, null, 2));
-  const response = await admin.graphql(
+  await admin.graphql(
     `#graphql
     mutation save($metafield: MetafieldsSetInput!) {
       metafieldsSet(metafields: [$metafield]) {
@@ -91,9 +85,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       },
     },
   );
-  const responseJson = await response.json();
 
-  console.log(JSON.stringify(responseJson, null, 2));
   return json("ok");
 };
 
@@ -161,6 +153,7 @@ export default function Index() {
                 inputValue={tagValue}
                 setInputValue={setTagValue}
                 placeholder="Select a customer tag"
+                errorMessage="Selected tag does not exist. Please select from existing tags."
               />
               <AutocompleteField
                 icon={PaymentFilledIcon}
@@ -169,6 +162,7 @@ export default function Index() {
                 inputValue={paymentMethodValue}
                 setInputValue={setPaymentMethodValue}
                 placeholder="Select a manual payment method"
+                errorMessage="Selected manual payment method does not exist. Please select from existing manual payment methods."
               />
               <InlineStack align="end">
                 <ButtonGroup>
