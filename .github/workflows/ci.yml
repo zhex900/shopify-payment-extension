@@ -13,9 +13,12 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm install
+      - name: typescript lint
+        run: npx tsc
       - name: lint
-        run: npm run lint
-
+        run: npx eslint .
+      - name: prettier check
+        run: npx prettier --check .
   frontend-test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
@@ -39,7 +42,8 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: |
-          cd extensions/payment-customization/ 
+          npm install
+          cd extensions/payment-customization/
           npm install
       - name: tests
         run: npx vitest run
