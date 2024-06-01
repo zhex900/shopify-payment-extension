@@ -17,7 +17,8 @@
     "vite": "vite",
     "test:unit:watch": "DEBUG_PRINT_LIMIT=99999999999999 vitest",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "deploy:static-stack": "sst deploy --stage production-static"
   },
   "type": "module",
   "engines": {

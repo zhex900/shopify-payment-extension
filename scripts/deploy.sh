@@ -27,3 +27,6 @@ aws ssm put-parameter \
 sed -i '' "s|https.*com|$shopifyAppUrl|g" ./shopify.app.toml
 
 shopify app deploy --force
+
+# reformat the code
+npx prettier --write .
