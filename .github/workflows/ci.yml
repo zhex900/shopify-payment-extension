@@ -63,7 +63,7 @@ jobs:
         with:
           role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
           role-session-name: github-role-session
-          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
