@@ -77,6 +77,7 @@ jobs:
       - name: Deploy
         run: |
           aws s3 ls
+          export SHOPIFY_API_SECRET=${{ secrets.SHOPIFY_API_SECRET }}
           sh scripts/deploy.sh
   playwright:
     timeout-minutes: 10
