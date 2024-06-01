@@ -6,6 +6,18 @@ Rather than cloning this repo, you can use your preferred package manager and th
 
 Visit the [`shopify.dev` documentation](https://shopify.dev/docs/api/shopify-app-remix) for more details on the Remix app package.
 
+prerequesists
+
+shopify cli
+partnet account
+sandbox store
+aws account
+sst cli
+
+how to setup
+ install the app
+
+
 ## Quick start
 
 ### Prerequisites
