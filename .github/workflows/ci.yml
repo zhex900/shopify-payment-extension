@@ -21,7 +21,7 @@ jobs:
           rm -rf sst.config.ts infrastructure
           npx tsc --noEmit
       - name: lint
-        run: npx eslint --noEmit .
+        run: npx eslint .
       - name: prettier check
         run: npx prettier --check .
   frontend-test:
