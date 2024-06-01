@@ -81,6 +81,7 @@ jobs:
         shell: 'script -q -e -c "bash {0}"'
         run: |
           aws s3 ls
+          sst unlock
           export SHOPIFY_API_SECRET=${{ secrets.SHOPIFY_API_SECRET }}
           sh scripts/deploy.sh
 
