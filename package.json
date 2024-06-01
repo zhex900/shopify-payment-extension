@@ -15,7 +15,9 @@
     "shopify": "shopify",
     "start": "remix-serve ./build/server/index.js",
     "vite": "vite",
-    "test:unit:watch": "DEBUG_PRINT_LIMIT=99999999999999 vitest"
+    "test:unit:watch": "DEBUG_PRINT_LIMIT=99999999999999 vitest",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test"
   },
   "type": "module",
   "engines": {

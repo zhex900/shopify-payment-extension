@@ -1,7 +1,6 @@
 import path from "node:path";
 
 import { LATEST_API_VERSION as apiVersion } from "@shopify/shopify-api";
-import type Shopify from "@shopify/shopify-app-remix";
 import { MemorySessionStorage } from "@shopify/shopify-app-session-storage-memory";
 import dotenv from "dotenv";
 import { vi } from "vitest";
@@ -45,10 +44,16 @@ vi.stubGlobal(
   })),
 );
 
-vi.mock("@shopify/shopify-app-remix", async () => {
+vi.mock("@shopify/shopify-app-remix/server", async () => {
   const shopify = (await vi.importActual(
-    "@shopify/shopify-app-remix",
-  )) as typeof Shopify;
+    "@shopify/shopify-app-remix/server",
+  )) as {
+    shopifyApp: (config: any) => any;
+    boundary: {
+      error: any;
+      headers: any;
+    };
+  };
 
   return {
     ...shopify,
