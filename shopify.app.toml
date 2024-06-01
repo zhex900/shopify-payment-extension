@@ -3,7 +3,7 @@
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-application_url = "https://d3ku2pz5otzlog.cloudfront.net"
+application_url = "APP_URL"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_customers,read_payment_customizations,read_translations,write_pay
 
 [auth]
 redirect_urls = [
-  "https://d3ku2pz5otzlog.cloudfront.net/auth/callback",
-  "https://d3ku2pz5otzlog.cloudfront.net/auth/shopify/callback",
-  "https://d3ku2pz5otzlog.cloudfront.net/api/auth/callback"
+  "APP_URL/auth/callback",
+  "APP_URL/auth/shopify/callback",
+  "APP_URL/api/auth/callback"
 ]
 
 [webhooks]

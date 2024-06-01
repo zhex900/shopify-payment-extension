@@ -31,7 +31,8 @@ aws ssm put-parameter \
     --type "String" \
     --overwrite | jq
 
-sed -i '' "s|https.*com|$shopifyAppUrl|g" ./shopify.app.toml
+escaped_url_for_sed=$(echo "$shopifyAppUrl" | sed 's/[\/&]/\\&/g')
+sed -i - "s/APP_URL/$escaped_url_for_sed/g" ./shopify.app.toml
 
 shopify app deploy --force
 
