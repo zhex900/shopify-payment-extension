@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 
 const checkout = async (page: Page) => {
   await page.goto("/products/test-shirt");
+
   await page.getByRole("button", { name: "Add to cart" }).click();
   await page.waitForRequest("**/cart?section_id=cart-drawer");
   await page.goto("/cart");

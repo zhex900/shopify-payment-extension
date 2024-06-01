@@ -6,3 +6,4 @@ dist/*
 .shopify
 sst.config.ts
 */*/dist/*
+extensions/payment-customization/dist/function.js

@@ -15,4 +15,12 @@ module.exports = {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
   },
+  overrides: [
+    {
+      files: ["tests/e2e/**/*.ts"],
+      rules: {
+        "testing-library/prefer-screen-queries": "off",
+      },
+    },
+  ],
 };

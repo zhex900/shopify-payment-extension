@@ -15,8 +15,7 @@ aws account
 sst cli
 
 how to setup
- install the app
-
+install the app
 
 ## Quick start
 

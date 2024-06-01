@@ -1,6 +1,6 @@
 import { createRemixStub } from "@remix-run/testing";
-import { waitFor } from "@testing-library/dom";
 import { render, screen, user } from "@testing-library/polaris";
+import { waitFor } from "@testing-library/react";
 import { expect, test } from "vitest";
 
 import IndexPage from "~/routes/app._index";

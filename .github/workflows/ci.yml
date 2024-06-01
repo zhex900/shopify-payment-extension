@@ -76,7 +76,7 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     container: mcr.microsoft.com/playwright:v1.42.1-jammy
-    depends-on: [frontend-test, function-test]
+    needs: [frontend-test, function-test]
     #    env:
     #      GITHUB_RUN_ID: ${{ vars.GITHUB_RUN_ID }}
     steps:
