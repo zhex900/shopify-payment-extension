@@ -57,6 +57,10 @@ jobs:
   deploy:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    environment: "development"
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

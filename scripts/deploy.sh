@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-export REGION=ap-southeast-2 AWS_DEFAULT_REGION=ap-southeast-2 AWS_PROFILE=stream-dev
+# if it is not in the CI/CD environment, then set the AWS_PROFILE
+if [ -z "$GITHUB_RUN_ID" ]; then
+  echo "Not in CI/CD environment, setting AWS_PROFILE to stream-dev"
+  export REGION=ap-southeast-2 AWS_DEFAULT_REGION=ap-southeast-2 AWS_PROFILE=stream-dev
+fi
 
 # Run the command `sst deploy`, pipe output to STD and capture in a variable
 output=$(sst deploy | tee /dev/tty)
