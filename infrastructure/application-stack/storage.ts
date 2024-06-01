@@ -1,4 +1,4 @@
-export const sessionsTable = new sst.aws.Dynamo("SessionsTable", {
+export const sessionsTable = new sst.aws.Dynamo(`SessionsTable-${$app.stage}`, {
   fields: {
     id: "string",
     shop: "string",
