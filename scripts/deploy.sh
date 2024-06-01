@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Exit if any command fails
+set -e
+
 # if it is not in the CI/CD environment, then set the AWS_PROFILE
 if [ -z "$GITHUB_RUN_ID" ]; then
   echo "Not in CI/CD environment, setting AWS_PROFILE to stream-dev"

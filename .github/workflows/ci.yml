@@ -73,7 +73,10 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: npm install
+        run: |
+          curl -fsSL https://ion.sst.dev/install | bash
+          npm install -g @shopify/cli
+          npm install
       - name: Deploy
         run: |
           aws s3 ls
