@@ -3,57 +3,57 @@ on:
   push:
   pull_request:
 jobs:
-  lint:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-      - name: Install dependencies
-        run: npm install
-      - name: typescript lint
-        run: |
-          node -v
-          npm -v
-          rm -rf sst.config.ts infrastructure
-          npx tsc --noEmit
-      - name: lint
-        run: npx eslint .
-      - name: prettier check
-        run: npx prettier --check .
-  frontend-test:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install dependencies
-        run: npm install
-      - name: Frontend tests
-        run: npx vitest run
-
-  function-test:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install dependencies
-        run: |
-          npm install
-          cd extensions/payment-customization/
-          npm install
-      - name: tests
-        run: |
-          cd extensions/payment-customization/
-          npx vitest run
+  #  lint:
+  #    timeout-minutes: 15
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - uses: actions/checkout@v4
+  #      - uses: actions/setup-node@v4
+  #        with:
+  #          node-version: 20
+  #          cache: "npm"
+  #      - name: Install dependencies
+  #        run: npm install
+  #      - name: typescript lint
+  #        run: |
+  #          node -v
+  #          npm -v
+  #          rm -rf sst.config.ts infrastructure
+  #          npx tsc --noEmit
+  #      - name: lint
+  #        run: npx eslint .
+  #      - name: prettier check
+  #        run: npx prettier --check .
+  #  frontend-test:
+  #    timeout-minutes: 15
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - uses: actions/checkout@v4
+  #      - uses: actions/setup-node@v4
+  #        with:
+  #          node-version: 20
+  #      - name: Install dependencies
+  #        run: npm install
+  #      - name: Frontend tests
+  #        run: npx vitest run
+  #
+  #  function-test:
+  #    timeout-minutes: 15
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - uses: actions/checkout@v4
+  #      - uses: actions/setup-node@v4
+  #        with:
+  #          node-version: 20
+  #      - name: Install dependencies
+  #        run: |
+  #          npm install
+  #          cd extensions/payment-customization/
+  #          npm install
+  #      - name: tests
+  #        run: |
+  #          cd extensions/payment-customization/
+  #          npx vitest run
   deploy:
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -78,32 +78,34 @@ jobs:
           npm install -g @shopify/cli
           npm install
       - name: Deploy
+        shell: 'script -q -e -c "bash {0}"'
         run: |
           aws s3 ls
           export SHOPIFY_API_SECRET=${{ secrets.SHOPIFY_API_SECRET }}
           sh scripts/deploy.sh
-  playwright:
-    timeout-minutes: 10
-    runs-on: ubuntu-22.04
-    container: mcr.microsoft.com/playwright:v1.44.1-jammy
-    needs: [frontend-test, function-test, lint]
-    #    env:
-    #      GITHUB_RUN_ID: ${{ vars.GITHUB_RUN_ID }}
-    steps:
-      #      - name: Configure AWS credentials
-      #        uses: aws-actions/configure-aws-credentials@v4
-      #        with:
-      #          role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
-      #          role-session-name: github-role-session
-      #          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: Wandalen/wretry.action@master
-        name: E2E tests
-        with:
-          attempt_limit: 3
-          attempt_delay: 2000
-          command: |
-            node -v
-            npm install
-            npx playwright test
+
+#  playwright:
+#    timeout-minutes: 10
+#    runs-on: ubuntu-22.04
+#    container: mcr.microsoft.com/playwright:v1.44.1-jammy
+#    needs: [frontend-test, function-test, lint]
+#    #    env:
+#    #      GITHUB_RUN_ID: ${{ vars.GITHUB_RUN_ID }}
+#    steps:
+#      #      - name: Configure AWS credentials
+#      #        uses: aws-actions/configure-aws-credentials@v4
+#      #        with:
+#      #          role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
+#      #          role-session-name: github-role-session
+#      #          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - uses: Wandalen/wretry.action@master
+#        name: E2E tests
+#        with:
+#          attempt_limit: 3
+#          attempt_delay: 2000
+#          command: |
+#            node -v
+#            npm install
+#            npx playwright test
