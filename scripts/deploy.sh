@@ -9,8 +9,24 @@ if [ -z "$GITHUB_RUN_ID" ]; then
   export REGION=ap-southeast-2 AWS_DEFAULT_REGION=ap-southeast-2 AWS_PROFILE=stream-dev
 fi
 
+# set env from .env file
+# if .env file exists, then export the variables
+if [ -f .env ]; then
+  echo "Exporting environment variables from .env file"
+  export $(egrep -v '^#' .env | xargs)
+fi
+
+if [ -z "$SHOPIFY_API_KEY" ]; then
+  echo "SHOPIFY_API_KEY is not set, exiting"
+  exit 1
+fi
+
+if [ -z "$STAGE" ]; then
+  STAGE=$(cat .sst/stage)
+fi
+
 # Run the command `sst deploy`, pipe output to STD and capture in a variable
-output=$(sst deploy | tee /dev/tty)
+output=$(sst deploy --stage $STAGE | tee /dev/tty)
 
 # Grep lines containing 'ShopifyApp' and save in a variable
 shopifyAppUrl=$(echo "$output" | grep 'appUrl:' | grep -o 'https[^ ]*')
@@ -18,11 +34,9 @@ shopifyAppUrl=$(echo "$output" | grep 'appUrl:' | grep -o 'https[^ ]*')
 appUrlParameterName=$(echo "$output" | grep 'appUrlParameterName:' | grep -o '/[^ ]*app-url')
 
 # Output the captured data
-echo "Output containing ShopifyApp:"
-echo "$shopifyAppUrl"
+echo "shopifyAppUrl: $shopifyAppUrl"
 
-echo "Output containing appUrlParameterName:"
-echo "$appUrlParameterName"
+echo "appUrlParameterName: $appUrlParameterName"
 
 # update ssm parameter with the shopify app url
 aws ssm put-parameter \
@@ -32,7 +46,8 @@ aws ssm put-parameter \
     --overwrite | jq
 
 escaped_url_for_sed=$(echo "$shopifyAppUrl" | sed 's/[\/&]/\\&/g')
-sed -i -e "s/APP_URL/$escaped_url_for_sed/g" ./shopify.app.toml
+sed -i -e "s/http.*:\/\/.*\.[a-z]*/$escaped_url_for_sed/g" ./shopify.app.toml
+sed -i -e "s/client_id.*$/client_id = \"$SHOPIFY_API_KEY\"/" ./shopify.app.toml
 
 # if $COMMIT_URL is not set, then set it to the latest commit
 if [ -z "$COMMIT_URL" ]; then
@@ -40,7 +55,10 @@ if [ -z "$COMMIT_URL" ]; then
   export COMMIT_URL=$(git rev-parse HEAD)
 fi
 
-shopify app deploy --force --source-control-url "$COMMIT_URL"
+#shopify app deploy --force --source-control-url "$COMMIT_URL"
 
-# reformat the code
-npx prettier --write .
+# if it is not in the CI/CD environment,
+if [ -z "$GITHUB_RUN_ID" ]; then
+  # reformat the code
+  npx prettier --write .
+fi

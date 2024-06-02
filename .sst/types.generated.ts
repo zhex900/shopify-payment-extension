@@ -3,19 +3,19 @@
 import "sst"
 declare module "sst" {
   export interface Resource {
-    ApiKey: {
+    ApiKeyJAKEHE: {
       type: "sst.sst.Secret"
       value: string
     }
-    ApiSecret: {
+    ApiSecretJAKEHE: {
       type: "sst.sst.Secret"
       value: string
     }
-    SessionsTable: {
+    SessionsTableJAKEHE: {
       name: string
       type: "sst.aws.Dynamo"
     }
-    ShopifyApp: {
+    ShopifyAppJAKEHE: {
       type: "sst.aws.Remix"
       url: string
     }
