@@ -3,7 +3,7 @@
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-application_url = "APP_URL"
+application_url = "https://work-packard-voted-heel.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_customers,read_payment_customizations,read_translations,write_pay
 
 [auth]
 redirect_urls = [
-  "APP_URL/auth/callback",
-  "APP_URL/auth/shopify/callback",
-  "APP_URL/api/auth/callback"
+  "https://work-packard-voted-heel.trycloudflare.com/auth/callback",
+  "https://work-packard-voted-heel.trycloudflare.com/auth/shopify/callback",
+  "https://work-packard-voted-heel.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

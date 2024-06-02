@@ -15,7 +15,7 @@ declare module "sst" {
       name: string
       type: "sst.aws.Dynamo"
     }
-    ShopifyApp: {
+    ShopifyAppJAKEHE: {
       type: "sst.aws.Remix"
       url: string
     }
