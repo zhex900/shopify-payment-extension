@@ -55,7 +55,7 @@ if [ -z "$COMMIT_URL" ]; then
   export COMMIT_URL=$(git rev-parse HEAD)
 fi
 
-#shopify app deploy --force --source-control-url "$COMMIT_URL"
+shopify app deploy --force --source-control-url "$COMMIT_URL"
 
 # if it is not in the CI/CD environment,
 if [ -z "$GITHUB_RUN_ID" ]; then
