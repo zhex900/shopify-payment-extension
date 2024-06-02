@@ -3,15 +3,15 @@
 import "sst";
 declare module "sst" {
   export interface Resource {
-    ApiKeyJAKEHE: {
+    ApiKey: {
       type: "sst.sst.Secret";
       value: string;
     };
-    ApiSecretJAKEHE: {
+    ApiSecret: {
       type: "sst.sst.Secret";
       value: string;
     };
-    SessionsTableJAKEHE: {
+    SessionsTable: {
       name: string;
       type: "sst.aws.Dynamo";
     };
