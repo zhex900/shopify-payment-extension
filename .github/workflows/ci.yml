@@ -79,10 +79,14 @@ jobs:
           npm install
       - name: Deploy
         shell: 'script -q -e -c "bash {0}"'
+        env:
+          # Token from the Partner Dashboard
+          SHOPIFY_CLI_PARTNERS_TOKEN: ${{ secrets.SHOPIFY_CLI_PARTNERS_TOKEN }}
+          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+          SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
         run: |
           aws s3 ls
           sst unlock
-          export SHOPIFY_API_SECRET=${{ secrets.SHOPIFY_API_SECRET }}
           sh scripts/deploy.sh
 
 #  playwright:

@@ -32,9 +32,15 @@ aws ssm put-parameter \
     --overwrite | jq
 
 escaped_url_for_sed=$(echo "$shopifyAppUrl" | sed 's/[\/&]/\\&/g')
-sed -i - "s/APP_URL/$escaped_url_for_sed/g" ./shopify.app.toml
+sed -i -e "s/APP_URL/$escaped_url_for_sed/g" ./shopify.app.toml
 
-shopify app deploy --force
+# if $COMMIT_URL is not set, then set it to the latest commit
+if [ -z "$COMMIT_URL" ]; then
+  echo "COMMIT_URL is not set, setting it to the latest commit"
+  export COMMIT_URL=$(git rev-parse HEAD)
+fi
+
+shopify app deploy --force --source-control-url "$COMMIT_URL"
 
 # reformat the code
 npx prettier --write .

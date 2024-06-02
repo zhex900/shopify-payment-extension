@@ -12,14 +12,17 @@ const shopifyAppConfig = toml.parse(
 if (!shopifyAppConfig.client_id) {
   throw new Error("client_id is required in shopify.app.toml");
 }
-const shopifyApiKey = new sst.Secret("ApiKey", shopifyAppConfig.client_id);
+const shopifyApiKey = new sst.Secret(
+  `ApiKey${$app.stage.toUpperCase()}`,
+  shopifyAppConfig.client_id,
+);
 
 if (!process.env.SHOPIFY_API_SECRET) {
   throw new Error("SHOPIFY_API_SECRET is required");
 }
 
 const shopifyApiSecret = new sst.Secret(
-  "ApiSecret",
+  `ApiSecret${$app.stage.toUpperCase()}`,
   process.env.SHOPIFY_API_SECRET,
 );
 
