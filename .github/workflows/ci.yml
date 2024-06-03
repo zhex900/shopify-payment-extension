@@ -126,6 +126,7 @@ jobs:
       #          npx playwright test
       #          ls tests/e2e/.auth/
       - name: Delete Previous Cache
+        uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
         continue-on-error: true
         run: |
           gh extension install actions/gh-actions-cache
