@@ -109,7 +109,7 @@ jobs:
           key: test-user-auth-credentials
           path: tests/e2e/.auth/*
       - name: Get auth credentials
-        run: npx playwright test setup.users.ts
+        run: npm run test:fetch-users
       - name: E2E tests
         run: npx playwright test
       - uses: actions/cache/save@v3

@@ -17,6 +17,7 @@
     "vite": "vite",
     "test:unit:watch": "DEBUG_PRINT_LIMIT=99999999999999 vitest",
     "test:unit": "vitest run",
+    "test:fetch-users": "tsx tests/e2e/fetch-users.ts",
     "test:e2e": "playwright test",
     "deploy:static-stack": "sst deploy --stage production-static"
   },
@@ -65,6 +66,7 @@
     "jest": "29.7.0",
     "jsdom": "^24.1.0",
     "prettier": "^3.2.5",
+    "tsx": "^4.11.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.12",
     "vitest": "^1.6.0"
