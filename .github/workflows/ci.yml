@@ -3,95 +3,95 @@ on:
   pull_request:
     types: [opened, synchronize]
 jobs:
-  #  lint:
-  #    timeout-minutes: 15
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - uses: actions/checkout@v4
-  #      - uses: actions/setup-node@v4
-  #        with:
-  #          node-version: 20
-  #          cache: "npm"
-  #      - name: Install dependencies
-  #        run: npm install
-  #      - name: typescript lint
-  #        run: |
-  #          node -v
-  #          npm -v
-  #          rm -rf sst.config.ts infrastructure
-  #          npx tsc --noEmit
-  #      - name: lint
-  #        run: npx eslint .
-  #      - name: prettier check
-  #        run: npx prettier --check .
-  #
-  #  frontend-test:
-  #    timeout-minutes: 15
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - uses: actions/checkout@v4
-  #      - uses: actions/setup-node@v4
-  #        with:
-  #          node-version: 20
-  #      - name: Install dependencies
-  #        run: npm install
-  #      - name: Frontend tests
-  #        run: npx vitest run
-  #
-  #  function-test:
-  #    timeout-minutes: 15
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - uses: actions/checkout@v4
-  #      - uses: actions/setup-node@v4
-  #        with:
-  #          node-version: 20
-  #      - name: Install dependencies
-  #        run: |
-  #          npm install
-  #          cd extensions/payment-customization/
-  #          npm install
-  #      - name: tests
-  #        run: |
-  #          cd extensions/payment-customization/
-  #          npx vitest run
-  #  deploy:
-  #    timeout-minutes: 10
-  #    runs-on: ubuntu-latest
-  #    environment: "development"
-  #    needs: [frontend-test, function-test, lint]
-  #    permissions:
-  #      contents: read
-  #      id-token: write
-  #    steps:
-  #      - name: Configure AWS credentials
-  #        uses: aws-actions/configure-aws-credentials@v4
-  #        with:
-  #          role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
-  #          role-session-name: github-role-session
-  #          aws-region: ${{ vars.AWS_REGION }}
-  #      - uses: actions/checkout@v4
-  #      - uses: actions/setup-node@v4
-  #        with:
-  #          node-version: 20
-  #      - name: Install dependencies
-  #        run: |
-  #          curl -fsSL https://ion.sst.dev/install | bash
-  #          npm install -g @shopify/cli
-  #          npm install
-  #      - name: Deploy
-  #        shell: 'script -q -e -c "bash {0}"'
-  #        env:
-  #          # Token from the Partner Dashboard
-  #          SHOPIFY_CLI_PARTNERS_TOKEN: ${{ secrets.SHOPIFY_CLI_PARTNERS_TOKEN }}
-  #          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
-  #          SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
-  #          SHOPIFY_API_SECRET: ${{ secrets.SHOPIFY_API_SECRET }}
-  #          STAGE: "test"
-  #        run: |
-  #          aws s3 ls
-  #          sst unlock
-  #          sh scripts/deploy.sh
+  lint:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      - name: Install dependencies
+        run: npm install
+      - name: typescript lint
+        run: |
+          node -v
+          npm -v
+          rm -rf sst.config.ts infrastructure
+          npx tsc --noEmit
+      - name: lint
+        run: npx eslint .
+      - name: prettier check
+        run: npx prettier --check .
+
+  frontend-test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+      - name: Frontend tests
+        run: npx vitest run
+
+  function-test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: |
+          npm install
+          cd extensions/payment-customization/
+          npm install
+      - name: tests
+        run: |
+          cd extensions/payment-customization/
+          npx vitest run
+  deploy:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    environment: "development"
+    needs: [frontend-test, function-test, lint]
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
+          role-session-name: github-role-session
+          aws-region: ${{ vars.AWS_REGION }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: |
+          curl -fsSL https://ion.sst.dev/install | bash
+          npm install -g @shopify/cli
+          npm install
+      - name: Deploy
+        shell: 'script -q -e -c "bash {0}"'
+        env:
+          # Token from the Partner Dashboard
+          SHOPIFY_CLI_PARTNERS_TOKEN: ${{ secrets.SHOPIFY_CLI_PARTNERS_TOKEN }}
+          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+          SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
+          SHOPIFY_API_SECRET: ${{ secrets.SHOPIFY_API_SECRET }}
+          STAGE: "test"
+        run: |
+          aws s3 ls
+          sst unlock
+          sh scripts/deploy.sh
 
   playwright:
     timeout-minutes: 10
@@ -101,7 +101,7 @@ jobs:
       contents: read
       actions: write # require to delete cache
       id-token: write
-    #      needs: [deploy]
+      needs: [deploy]
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -123,8 +123,7 @@ jobs:
       - name: E2E tests
         run: |
           npx playwright test setup.auth.ts
-      #          npx playwright test
-      #          ls tests/e2e/.auth/
+          npx playwright test
       - name: Install GH CLI
         uses: dev-hanz-ops/install-gh-cli-action@v0.2.0
       - name: Delete Previous Cache
