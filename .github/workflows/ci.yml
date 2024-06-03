@@ -115,7 +115,7 @@ jobs:
       - uses: actions/cache/restore@v4
         id: restore-cache
         with:
-          key: test-user-auth-credentials
+          key: ${{ runner.os }}-test-user-auth-credentials
           path: tests/e2e/.auth/
       - name: Get auth credentials
         run: npm run test:fetch-users
@@ -128,4 +128,4 @@ jobs:
         id: cache
         with:
           path: tests/e2e/.auth/
-          key: test-user-auth-credentials
+          key: ${{ runner.os }}-test-user-auth-credentials
