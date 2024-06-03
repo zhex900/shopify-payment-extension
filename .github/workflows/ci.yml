@@ -120,9 +120,9 @@ jobs:
           path: tests/e2e/.auth/
       - name: Get auth credentials
         run: npm run test:fetch-users
-      #      - name: E2E tests
-      #        run: |
-      #          npx playwright test setup.auth.ts
+      - name: E2E tests
+        run: |
+          npx playwright test setup.auth.ts
       #          npx playwright test
       #          ls tests/e2e/.auth/
       - name: Install GH CLI
