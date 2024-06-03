@@ -13,3 +13,4 @@ database.sqlite
 .env
 
 .sst
+tests/e2e/.auth/*

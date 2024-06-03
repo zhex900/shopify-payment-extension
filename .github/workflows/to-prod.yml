@@ -40,20 +40,3 @@ jobs:
           aws s3 ls
           sst unlock
           sh scripts/deploy.sh
-
-  playwright:
-    timeout-minutes: 10
-    runs-on: ubuntu-22.04
-    container: mcr.microsoft.com/playwright:v1.44.1-jammy
-    needs: [deploy]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: Wandalen/wretry.action@master
-        name: E2E tests
-        with:
-          attempt_limit: 3
-          attempt_delay: 2000
-          command: |
-            npm install
-            npx playwright test

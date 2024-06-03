@@ -97,15 +97,44 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     container: mcr.microsoft.com/playwright:v1.44.1-jammy
+    permissions:
+      contents: read
+      actions: write # require to delete cache
+      id-token: write
     needs: [deploy]
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
+          role-session-name: github-role-session
+          aws-region: ${{ vars.AWS_REGION }}
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: Wandalen/wretry.action@master
-        name: E2E tests
+      - name: Install dependencies
+        run: npm install
+      - uses: actions/cache/restore@v4
+        id: restore-cache
         with:
-          attempt_limit: 3
-          attempt_delay: 2000
-          command: |
-            npm install
-            npx playwright test
+          key: test-user-auth-credentials
+          path: tests/e2e/.auth/
+      - name: Get auth credentials
+        run: npm run test:fetch-users
+      - name: E2E tests
+        run: |
+          npx playwright test setup.auth.ts
+          npx playwright test
+      - name: Install GH CLI
+        uses: dev-hanz-ops/install-gh-cli-action@v0.2.0
+      - name: Delete Previous Cache
+        continue-on-error: true
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete "test-user-auth-credentials" --confirm -R ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/cache/save@v4
+        id: cache
+        with:
+          path: tests/e2e/.auth/
+          key: test-user-auth-credentials
