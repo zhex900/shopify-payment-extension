@@ -126,10 +126,11 @@ jobs:
       #          npx playwright test
       #          ls tests/e2e/.auth/
       - name: Install GH CLI
+        if: ${{ steps.cache-restore.outputs.cache-hit }}
         uses: dev-hanz-ops/install-gh-cli-action@v0.2.0
       - name: Delete Previous Cache
         continue-on-error: true
-        if: ${{ steps.cache-restore.outputs.cache-hit }}
+        if: steps.cache-restore.outputs.cache-hit
         run: |
           gh extension install actions/gh-actions-cache
           gh actions-cache delete "test-user-auth-credentials" --confirm -R ${{ github.repository }}
