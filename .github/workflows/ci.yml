@@ -97,8 +97,17 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     container: mcr.microsoft.com/playwright:v1.44.1-jammy
+    permissions:
+      contents: read
+      id-token: write
     #    needs: [deploy]
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
+          role-session-name: github-role-session
+          aws-region: ${{ vars.AWS_REGION }}
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install dependencies
