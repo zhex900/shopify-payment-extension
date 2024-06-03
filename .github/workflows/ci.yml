@@ -128,7 +128,6 @@ jobs:
         id: cache
         with:
           path: tests/e2e/.auth/
-          if: always()
           key: test-user-auth-credentials-${{ hashFiles('tests/e2e/.auth/') }}
           restore-keys: |
             test-user-auth-credentials-
