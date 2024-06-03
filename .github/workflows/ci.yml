@@ -126,7 +126,6 @@ jobs:
       #          npx playwright test
       #          ls tests/e2e/.auth/
       - name: Delete Previous Cache
-        if: ${{ steps.cache-restore.outputs.cache-hit }}
         continue-on-error: true
         run: |
           gh extension install actions/gh-actions-cache
