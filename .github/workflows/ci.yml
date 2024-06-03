@@ -116,15 +116,16 @@ jobs:
         id: restore-cache
         with:
           key: test-user-auth-credentials
-          path: tests/e2e/.auth/*
+          path: tests/e2e/.auth/
       - name: Get auth credentials
         run: npm run test:fetch-users
       - name: E2E tests
         run: |
           npx playwright test setup.auth.ts
           npx playwright test
+          ls tests/e2e/.auth/
       - uses: actions/cache/save@v4
         id: cache
         with:
-          path: tests/e2e/.auth/*
+          path: tests/e2e/.auth/
           key: test-user-auth-credentials
