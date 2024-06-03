@@ -101,7 +101,7 @@ jobs:
       contents: read
       actions: write # require to delete cache
       id-token: write
-      needs: [deploy]
+    needs: [deploy]
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
