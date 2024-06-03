@@ -128,4 +128,4 @@ jobs:
         id: cache
         with:
           path: tests/e2e/.auth/
-          key: ${{ runner.os }}-test-user-auth-credentials
+          key: ${{ runner.os }}-${{ hashFiles('tests/e2e/.auth/') }}
