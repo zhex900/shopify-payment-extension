@@ -4,7 +4,7 @@ import * as fs from "fs";
 // @ts-ignore
 import users from "/tmp/dev-store-test-users.json" assert { type: "json" };
 
-import { isExpired, USERS_CREDENTIALS_FILE } from "./utils";
+import { ifFileExists, isExpired } from "./utils";
 
 const auth = ({
   username,
@@ -18,7 +18,7 @@ const auth = ({
   const authFile = `tests/e2e/.auth/${role}.json`;
 
   setup(`authenticate-${role}`, async ({ page }) => {
-    if (fs.existsSync(USERS_CREDENTIALS_FILE)) {
+    if (ifFileExists(authFile)) {
       const authFileJSONString = fs.readFileSync(authFile, "utf-8");
       const authFileJSON = JSON.parse(authFileJSONString) as {
         cookies: { name: string; expires: number }[];
