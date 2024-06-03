@@ -107,6 +107,7 @@ jobs:
         id: restore-cache
         with:
           key: test-user-auth-credentials
+          path: tests/e2e/.auth/*
       - name: Get auth credentials
         run: npx playwright test setup.users.ts
       - name: E2E tests
