@@ -43,7 +43,7 @@ const shopify = shopifyApp({
     sessionTableName: process.env.SESSIONS_TABLE_NAME!,
     shopIndexName: "shopIndexName",
     config: {
-      region: process.env.REGION,
+      region: process.env.AWS_DEFAULT_REGION,
     },
   }),
   distribution: AppDistribution.AppStore,

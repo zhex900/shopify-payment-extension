@@ -6,7 +6,7 @@ set -e
 # if it is not in the CI/CD environment, then set the AWS_PROFILE
 if [ -z "$GITHUB_RUN_ID" ]; then
   echo "Not in CI/CD environment, setting AWS_PROFILE to stream-dev"
-  export REGION=ap-southeast-2 AWS_DEFAULT_REGION=ap-southeast-2 AWS_PROFILE=stream-dev
+  export AWS_DEFAULT_REGION=ap-southeast-2 AWS_PROFILE=stream-dev
 fi
 
 # set env from .env file
@@ -52,7 +52,9 @@ sed -i -e "s/client_id.*$/client_id = \"$SHOPIFY_API_KEY\"/" ./shopify.app.toml
 # if $COMMIT_URL is not set, then set it to the latest commit
 if [ -z "$COMMIT_URL" ]; then
   echo "COMMIT_URL is not set, setting it to the latest commit"
-  export COMMIT_URL=$(git rev-parse HEAD)
+  # get git remote url
+  remoteURL=$(git remote get-url origin | sed s/:/\\//g | sed s/git@/https:\\/\\// | sed s/\.git$//g)
+  export COMMIT_URL=$remoteURL/commit/$(git rev-parse HEAD)
 fi
 
 shopify app deploy --force --source-control-url "$COMMIT_URL"

@@ -1,9 +1,9 @@
-# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+# Learn more about configuring your app at https://d317i30he79rfg.cloudfront.net/docs/apps/tools/cli/configuration
 
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-application_url = "https://work-packard-voted-heel.trycloudflare.com"
+application_url = "https://d317i30he79rfg.cloudfront.net"
 embedded = true
 
 [build]
@@ -12,14 +12,14 @@ dev_store_url = "standbox.myshopify.com"
 include_config_on_deploy = true
 
 [access_scopes]
-# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+# Learn more at https://d317i30he79rfg.cloudfront.net/docs/apps/tools/cli/configuration#access_scopes
 scopes = "read_customers,read_payment_customizations,read_translations,write_payment_customizations"
 
 [auth]
 redirect_urls = [
-  "https://work-packard-voted-heel.trycloudflare.com/auth/callback",
-  "https://work-packard-voted-heel.trycloudflare.com/auth/shopify/callback",
-  "https://work-packard-voted-heel.trycloudflare.com/api/auth/callback"
+  "https://d317i30he79rfg.cloudfront.net/auth/callback",
+  "https://d317i30he79rfg.cloudfront.net/auth/shopify/callback",
+  "https://d317i30he79rfg.cloudfront.net/api/auth/callback"
 ]
 
 [webhooks]
