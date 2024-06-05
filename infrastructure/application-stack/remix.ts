@@ -24,7 +24,7 @@ const shopifyApiSecret = new sst.Secret(
 );
 
 export const remix = new sst.aws.Remix(
-  `ShopifyApp${$app.stage.toUpperCase()}`,
+  `${$app.name}${$app.stage.toUpperCase()}`,
   {
     link: [sessionsTable, shopifyApiKey, shopifyApiSecret],
     permissions: [
@@ -40,7 +40,6 @@ export const remix = new sst.aws.Remix(
       SHOP_CUSTOM_DOMAIN: process.env.SHOP_CUSTOM_DOMAIN || "",
       SHOPIFY_SCOPES: shopifyAppConfig.access_scopes.scopes || "",
       SESSIONS_TABLE_NAME: sessionsTable.name,
-      REGION: "ap-southeast-2",
     },
   },
 );

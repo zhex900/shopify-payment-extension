@@ -6,7 +6,7 @@
     "config:link": "shopify app config link",
     "config:use": "shopify app config use",
     "deploy": "shopify app deploy",
-    "dev": "REGION=ap-southeast-2 AWS_DEFAULT_REGION=ap-southeast-2 AWS_PROFILE=stream-dev sst dev shopify app dev",
+    "dev": "AWS_DEFAULT_REGION=ap-southeast-2 AWS_PROFILE=stream-dev sst dev shopify app dev",
     "docker-start": "npm run setup && npm run start",
     "env": "shopify app env",
     "generate": "shopify app generate",

@@ -3,7 +3,7 @@
 export default $config({
   app(input) {
     return {
-      name: "shopify-payment-extension",
+      name: "ShopifyPayment",
       removal: input?.stage === "production" ? "retain" : "remove",
       home: "aws",
     };

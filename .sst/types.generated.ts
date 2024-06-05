@@ -11,11 +11,11 @@ declare module "sst" {
       type: "sst.sst.Secret"
       value: string
     }
-    SessionsTable: {
+    SessionsShopifyPaymentJAKEHE: {
       name: string
       type: "sst.aws.Dynamo"
     }
-    ShopifyAppJAKEHE: {
+    ShopifyPaymentJAKEHE: {
       type: "sst.aws.Remix"
       url: string
     }
