@@ -1,11 +1,3 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import {
-  useActionData,
-  useLoaderData,
-  useNavigation,
-  useSubmit,
-} from "@remix-run/react";
 import { TitleBar } from "@shopify/app-bridge-react";
 import {
   BlockStack,
@@ -17,6 +9,13 @@ import {
   Page,
   Text,
 } from "@shopify/polaris";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import {
+  useActionData,
+  useLoaderData,
+  useNavigation,
+  useSubmit,
+} from "react-router";
 
 import { PAYMENT_CUSTOMIZATION_NAME } from "~/constant";
 import { queryPaymentCustomizationsConfiguration } from "~/graphql/queryPaymentCustomizations";
@@ -79,7 +78,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   );
   const resultJson = await result.json();
 
-  return json(resultJson.data.paymentCustomizationCreate);
+  return resultJson.data.paymentCustomizationCreate;
 };
 // check if the payment extension is installed
 

@@ -1,4 +1,4 @@
-import "./mock-shopify-app-remix";
+import "./mock-shopify-app";
 import "@testing-library/jest-dom";
 
 import { vi } from "vitest";

@@ -1,6 +1,6 @@
 import path from "node:path";
 
-import { LATEST_API_VERSION as apiVersion } from "@shopify/shopify-api";
+import { ApiVersion } from "@shopify/shopify-api";
 import { MemorySessionStorage } from "@shopify/shopify-app-session-storage-memory";
 import dotenv from "dotenv";
 import { vi } from "vitest";
@@ -29,7 +29,7 @@ const testConfig = function testConfig(overrides = {}) {
     apiKey,
     apiSecretKey,
     scopes: scopes.split(","),
-    apiVersion,
+    apiVersion: ApiVersion.October25,
     appUrl,
     sessionStorage: new MemorySessionStorage(),
     ...overrides,
@@ -44,9 +44,9 @@ vi.stubGlobal(
   })),
 );
 
-vi.mock("@shopify/shopify-app-remix/server", async () => {
+vi.mock("@shopify/shopify-app-react-router/server", async () => {
   const shopify = (await vi.importActual(
-    "@shopify/shopify-app-remix/server",
+    "@shopify/shopify-app-react-router/server",
   )) as {
     shopifyApp: (config: any) => any;
     boundary: {

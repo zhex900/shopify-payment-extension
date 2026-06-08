@@ -1,6 +1,6 @@
-name = "remix"
+name = "app"
 roles = ["frontend", "backend"]
 webhooks_path = "/webhooks"
 
 [commands]
-dev = "npm exec remix vite:dev"
+dev = "npm exec react-router dev"

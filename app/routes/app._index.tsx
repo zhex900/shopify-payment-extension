@@ -1,11 +1,3 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import {
-  useActionData,
-  useLoaderData,
-  useNavigation,
-  useSubmit,
-} from "@remix-run/react";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import {
   BlockStack,
@@ -20,6 +12,14 @@ import {
 } from "@shopify/polaris";
 import { PaymentFilledIcon, ProductFilledIcon } from "@shopify/polaris-icons";
 import { useEffect, useState } from "react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import {
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+  useSubmit,
+} from "react-router";
 
 import { AutocompleteField } from "~/components/autocomplete-field";
 import {
@@ -86,7 +86,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   );
 
-  return json("ok");
+  return "ok";
 };
 
 export default function Index() {

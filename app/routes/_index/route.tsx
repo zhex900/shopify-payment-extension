@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "react-router";
+import { redirect } from "react-router";
 
 import styles from "./styles.module.css";
 
@@ -9,13 +9,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     throw redirect(`/app?${url.searchParams.toString()}`);
   }
 
-  return json({});
+  return {};
 };
 
 export default function App() {
   return (
     <div className={styles.index}>
-      <h1>Welcome to App</h1>
+      <h1>Welcome to App v2</h1>
     </div>
   );
 }

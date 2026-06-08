@@ -1,6 +1,6 @@
-import { createRemixStub } from "@remix-run/testing";
 import { render, screen, user } from "@testing-library/polaris";
 import { waitFor } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import { expect, test } from "vitest";
 
 import IndexPage from "~/routes/app._index";
@@ -8,7 +8,7 @@ import IndexPage from "~/routes/app._index";
 test("display tag and payment value from configuration", async () => {
   const tag = "customer-tag";
   const paymentMethod = "cash";
-  const App = createRemixStub([
+  const App = createRoutesStub([
     {
       path: "/",
       Component: IndexPage,
@@ -61,7 +61,7 @@ test("display tag and payment value from configuration", async () => {
 test("display error when configuration tag and payment method does not exist", async () => {
   const tag = "customer-tag";
   const paymentMethod = "cash";
-  const App = createRemixStub([
+  const App = createRoutesStub([
     {
       path: "/",
       Component: IndexPage,
@@ -103,7 +103,7 @@ test("save tag and payments", async () => {
   const customerTags = ["customer-tag", "customer-tag-2", "customer-tag-3"];
   const paymentMethods = ["cash", "credit card", "bank deposit"];
   let actionRequest = undefined as Request | undefined;
-  const App = createRemixStub([
+  const App = createRoutesStub([
     {
       path: "/",
       Component: IndexPage,
