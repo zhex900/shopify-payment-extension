@@ -40,6 +40,21 @@ customers don't.
 
 `npm run dev`
 
+Uses `--use-localhost` so Shopify CLI does not need to download Cloudflare's `cloudflared` binary
+(embedded admin UI works without an external tunnel). If you need the default Cloudflare tunnel
+instead, use `npm run dev:tunnel`.
+
+If `dev:tunnel` fails with a `cloudflared` download timeout, either retry later or bring your own
+tunnel:
+
+```bash
+# Terminal 1 — use the local port shown when the app starts (often 3000)
+cloudflared tunnel --url http://localhost:3000
+
+# Terminal 2 — paste the trycloudflare.com URL from terminal 1
+npm run dev:tunnel -- --tunnel-url=https://<your-subdomain>.trycloudflare.com:3000
+```
+
 Set up a Neon database and put its pooled connection string in `DATABASE_URL` (see `.env.example`),
 then apply the session-table schema with `npm run db:migrate` (or `npm run db:push`).
 
