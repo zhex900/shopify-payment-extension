@@ -1,26 +1,20 @@
-# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+# Extension-only app — no admin UI. Deploy with `shopify app deploy`.
 
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
 handle = "payment-113"
-# TODO: replace with your Vercel production domain after the first deploy.
-application_url = "https://your-app.vercel.app"
-embedded = true
+application_url = "https://shopify.dev/apps/default-app-home"
+embedded = false
 
 [build]
 automatically_update_urls_on_dev = true
 dev_store_url = "standbox.myshopify.com"
 
 [access_scopes]
-# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_customers,read_payment_customizations,read_translations,write_payment_customizations"
+scopes = ""
 
 [auth]
-redirect_urls = [
-  "https://your-app.vercel.app/auth/callback",
-  "https://your-app.vercel.app/auth/shopify/callback",
-  "https://your-app.vercel.app/api/auth/callback"
-]
+redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
 
 [webhooks]
 api_version = "2025-10"

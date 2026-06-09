@@ -1,35 +1,16 @@
 {
-  "include": ["env.d.ts", "**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": ["ES2022"],
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
-    "removeComments": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2022",
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./app/*"],
-      "@testing-library/polaris": [
-        "./tests/test-utilities/testing-library-polaris"
-      ]
-    },
-    "types": [
-      "@react-router/node",
-      "vite/client",
-      "@shopify/polaris-types",
-      "node",
-      "vitest/globals"
-    ],
-    "rootDirs": [".", "./.react-router/types"]
-  }
+    "noEmit": true,
+    "allowJs": true,
+    "resolveJsonModule": true
+  },
+  "include": ["extensions/**/*.ts", "tests/**/*.ts", "playwright.config.ts", ".graphqlrc.ts"]
 }

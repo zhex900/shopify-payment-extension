@@ -1,73 +1,45 @@
 # Shopify Payment Extension
 
-A Shopify embedded admin app paired with a **Payment Customization Shopify Function**. It lets merchants
-show a specific **manual payment method** only to customers who have a particular **customer tag**, and
-hide it from everyone else at checkout.
+A **Payment Customization Shopify Function** that shows **Pay by invoice** at checkout only for customers with the **`pay by invoice`** customer tag. Everyone else (including guests) does not see that option.
 
-The classic use case: B2B customers tagged for "Pay by invoice" see that option at checkout, while retail
-customers don't.
+There is **no admin app UI** — behavior is hardcoded in the function. Merchants enable the customization in Shopify Admin after deploy.
 
-## How it works
+## Behavior
 
-1. The merchant installs the app (embedded in Shopify Admin). On first load, `/app/install` finds the
-   `payment-customization` function and registers a `paymentCustomization` via the Admin GraphQL API.
-2. In the config UI (`/app`), the merchant picks a **customer tag** and a **manual payment method**. This
-   is saved as a JSON metafield (`payment-customization/function-configuration`) on the payment
-   customization.
-3. At checkout, the Shopify Function (`extensions/payment-customization/src/run.ts`) reads that metafield:
-   - Customer **has the tag** → show only the selected payment method, hide the rest.
-   - Customer **lacks the tag** (or is a guest) → hide all configured manual payment methods.
+| Customer | Checkout payment methods |
+|---|---|
+| Has `pay by invoice` tag | **Pay by invoice** only (other managed manual methods hidden) |
+| No tag / guest | Pay by invoice hidden (along with other managed manual methods) |
 
-## Stack
-
-- **App:** React Router v7, React 18, Shopify Polaris, App Bridge (`@shopify/shopify-app-react-router`)
-- **Function:** TypeScript compiled to WASM (`javy`, `@shopify/shopify_function`), validated with `zod`
-- **Hosting:** Vercel (serverless, scales to zero) — deploys automatically via Vercel's Git integration
-- **Session storage:** Neon (serverless Postgres) via Drizzle ORM
-  (`@shopify/shopify-app-session-storage-drizzle`)
-- **Testing:** Vitest, Testing Library, Playwright
-- **CI/CD:** GitHub Actions (lint/test) + Vercel (app deploy) + Shopify CLI (config/extension deploy)
+Managed manual methods are defined in `extensions/payment-customization/src/run.ts` (`MANAGED_MANUAL_PAYMENT_METHODS`). Update that list if your store uses different manual payment method names.
 
 ## Project layout
 
-- `app/` — React Router routes, Shopify auth (`shopify.server.ts`), Drizzle DB (`db.server.ts`,
-  `db/schema.ts`), GraphQL helpers, UI components
-- `extensions/payment-customization/` — the checkout Function
-- `drizzle.config.ts` / `app/db/migrations/` — Drizzle config and generated session-table migrations
-- `tests/` — Vitest unit tests and Playwright E2E tests
+- `extensions/payment-customization/` — the checkout function (TypeScript → WASM)
+- `tests/e2e/` — Playwright checkout tests against the dev store
 
-## Local Development
-
-`npm run dev`
-
-Uses `--use-localhost` so Shopify CLI does not need to download Cloudflare's `cloudflared` binary
-(embedded admin UI works without an external tunnel). If you need the default Cloudflare tunnel
-instead, use `npm run dev:tunnel`.
-
-If `dev:tunnel` fails with a `cloudflared` download timeout, either retry later or bring your own
-tunnel:
+## Local development
 
 ```bash
-# Terminal 1 — use the local port shown when the app starts (often 3000)
-cloudflared tunnel --url http://localhost:3000
-
-# Terminal 2 — paste the trycloudflare.com URL from terminal 1
-npm run dev:tunnel -- --tunnel-url=https://<your-subdomain>.trycloudflare.com:3000
+npm install
+npm run dev
 ```
 
-Set up a Neon database and put its pooled connection string in `DATABASE_URL` (see `.env.example`),
-then apply the session-table schema with `npm run db:migrate` (or `npm run db:push`).
+Use the Shopify CLI preview to test checkout on your dev store (`standbox.myshopify.com` in `shopify.app.toml`).
 
-## Deployment
+After deploy, activate the customization in **Settings → Payments → Payment customizations** in the store admin.
 
-- **App:** hosted on Vercel. Pushes to `main` deploy automatically via Vercel's Git integration.
-  Set `SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, `SHOPIFY_APP_URL`, `SCOPES`, and `DATABASE_URL` in the
-  Vercel project's Environment Variables. After the first deploy, set the production domain in
-  `shopify.app.toml` (`application_url` + `auth.redirect_urls`).
-- **Shopify config + Function:** `shopify app deploy` (run by CI on merge to `main`).
+## Deploy
 
-## CI/CD
+```bash
+npm run deploy
+```
 
-- **Pull requests:** lint (tsc + ESLint + Prettier), Vitest unit tests, and function tests.
-- **Merges to `main`:** Vercel deploys the app; the `to-prod` workflow runs `shopify app deploy` to
-  push the app config + payment-customization Function.
+CI runs `shopify app deploy` on merge to `main` (requires `SHOPIFY_CLI_PARTNERS_TOKEN`).
+
+## Tests
+
+```bash
+npm run test:function   # unit tests for the function
+npm run test:e2e        # Playwright checkout tests
+```

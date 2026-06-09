@@ -4,10 +4,6 @@ on:
     branches:
       - main
 jobs:
-  # The Remix/React Router app itself is hosted on Vercel and deploys
-  # automatically via Vercel's Git integration on every push to main.
-  # This workflow only deploys the Shopify app configuration + the
-  # payment-customization Function/extension via the Shopify CLI.
   shopify-deploy:
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -20,9 +16,8 @@ jobs:
         run: |
           npm install -g @shopify/cli
           npm install
-      - name: Deploy Shopify app config + extensions
+      - name: Deploy Shopify app + payment-customization function
         env:
-          # Token from the Partner Dashboard
           SHOPIFY_CLI_PARTNERS_TOKEN: ${{ secrets.SHOPIFY_CLI_PARTNERS_TOKEN }}
         run: |
           shopify app deploy --force \

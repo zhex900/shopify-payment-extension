@@ -1,42 +1,16 @@
-#https://shopify.dev/docs/apps/functions/input-output/variables-queries
-#https://shopify.dev/docs/apps/checkout/payments/config
-query RunInput($tag: String!) {
+query RunInput {
   cart {
     buyerIdentity {
       customer {
-        id
-        displayName
-        email
-        hasTags(tags: [$tag]) {
+        hasTags(tags: ["pay by invoice"]) {
           hasTag
           tag
         }
-        metafield(key: "custom.locality", namespace: "customer.metafields") {
-          value
-        }
-      }
-      purchasingCompany {
-        company {
-          name
-        }
-      }
-    }
-    cost {
-      totalAmount {
-        amount
       }
     }
   }
   paymentMethods {
     id
     name
-  }
-  paymentCustomization {
-    metafield(
-      namespace: "payment-customization"
-      key: "function-configuration"
-    ) {
-      value
-    }
   }
 }

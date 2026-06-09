@@ -14,30 +14,12 @@ jobs:
           cache: "npm"
       - name: Install dependencies
         run: npm install
-      - name: Generate React Router types
-        run: npx react-router typegen
-      - name: typescript lint
-        run: |
-          node -v
-          npm -v
-          npx tsc --noEmit
-      - name: lint
-        run: npx eslint .
+      - name: Function tests
+        run: npm run test:function
+      - name: eslint
+        run: npx eslint extensions/
       - name: prettier check
         run: npx prettier --check .
-
-  frontend-test:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install dependencies
-        run: npm install
-      - name: Frontend tests
-        run: npx vitest run
 
   function-test:
     timeout-minutes: 15
@@ -48,11 +30,10 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
+        run: npm install
+      - name: Build function
         run: |
-          npm install
-          cd extensions/payment-customization/
-          npm install
+          cd extensions/payment-customization
+          npx shopify app function build
       - name: tests
-        run: |
-          cd extensions/payment-customization/
-          npx vitest run
+        run: npm run test:function

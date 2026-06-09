@@ -15,11 +15,3 @@ type = "function"
   [extensions.build]
   command = ""
   path = "dist/function.wasm"
-
-  [extensions.ui.paths]
-  create = "/"
-  details = "/"
-
-  [extensions.input.variables]
-  namespace = "payment-customization"
-  key = "function-configuration"
