@@ -27,7 +27,13 @@ npm run dev
 
 Use the Shopify CLI preview to test checkout on your dev store (`standbox.myshopify.com` in `shopify.app.toml`).
 
-After deploy, activate the customization in **Settings → Payments → Payment customizations** in the store admin.
+After installing (or reinstalling) the app on a store, activate the customization:
+
+```bash
+npm run activate
+```
+
+Uninstalling the app deletes its payment customization, so re-run this after every reinstall. The script authenticates as the app (client credentials grant using `.env` keys) and creates/enables the customization via `paymentCustomizationCreate`. It is idempotent — safe to run any time.
 
 ## Deploy
 

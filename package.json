@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "shopify app dev",
     "deploy": "shopify app deploy",
+    "activate": "node --env-file=.env scripts/activate.mjs",
     "shopify": "shopify",
     "test": "npm run test:function",
     "test:function": "npm run test --workspace=payment-customization",
