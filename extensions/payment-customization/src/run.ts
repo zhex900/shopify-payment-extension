@@ -1,61 +1,58 @@
-import { z } from "zod";
+type RunInput = {
+  cart: {
+    buyerIdentity?: {
+      customer?: {
+        hasTags?: Array<{ hasTag: boolean; tag: string }>;
+      } | null;
+    } | null;
+  };
+  paymentMethods: Array<{ id: string; name: string }>;
+};
 
-import type { FunctionRunResult, RunInput } from "../generated/api";
+type FunctionRunResult = {
+  operations: Array<{
+    hide: {
+      paymentMethodId: string;
+    };
+  }>;
+};
 
 const NO_CHANGES: FunctionRunResult = {
   operations: [],
 };
 
-const Configuration = z.object({
-  tag: z.string(),
-  paymentMethod: z.string(),
-  paymentMethods: z.string().array(),
-});
+/** Customers with this tag see Pay by invoice at checkout. */
+export const PAY_BY_INVOICE_TAG = "pay by invoice";
+
+/** Manual payment method shown to tagged customers. */
+export const PAY_BY_INVOICE_METHOD = "Pay by invoice";
+
+/**
+ * Manual payment methods this function manages.
+ * Non-tagged customers have all of these hidden; tagged customers see only PAY_BY_INVOICE_METHOD.
+ */
+export const MANAGED_MANUAL_PAYMENT_METHODS = [PAY_BY_INVOICE_METHOD] as const;
 
 export function run(input: RunInput): FunctionRunResult {
   try {
-    const hasTags = input.cart.buyerIdentity?.customer?.hasTags;
+    const hasPayByInvoiceTag =
+      input.cart.buyerIdentity?.customer?.hasTags?.some(
+        (tag) =>
+          tag.hasTag &&
+          tag.tag.toLowerCase() === PAY_BY_INVOICE_TAG.toLowerCase(),
+      ) ?? false;
 
-    // authorized if the customer has the required tags
-    const authorized =
-      hasTags &&
-      hasTags.length > 0 &&
-      hasTags.filter((tag) => !tag.hasTag).length === 0;
-
-    if (!input.paymentCustomization.metafield) {
-      return NO_CHANGES;
-    }
-
-    const { data: configuration, success } = Configuration.safeParse(
-      JSON.parse(input.paymentCustomization.metafield?.value),
-    );
-
-    if (!success) {
-      return NO_CHANGES;
-    }
-
-    const operations = configuration.paymentMethods
-      .map((method) => {
-        // find the payment method id
-        const id = input.paymentMethods.find((m) =>
-          m.name.includes(method),
-        )?.id;
-        if (
-          // this should not happen
-          !id ||
-          // if authorized, hide all payment methods except the one specified
-          (authorized && method === configuration.paymentMethod)
-        ) {
-          return undefined;
-        }
-        return {
-          hide: {
-            paymentMethodId: id!,
-          },
-        };
-      })
-      // filter out empty operations
-      .filter((operation) => operation) as FunctionRunResult["operations"];
+    const operations = MANAGED_MANUAL_PAYMENT_METHODS.map((method) => {
+      const id = input.paymentMethods.find((m) => m.name.includes(method))?.id;
+      if (!id || (hasPayByInvoiceTag && method === PAY_BY_INVOICE_METHOD)) {
+        return undefined;
+      }
+      return {
+        hide: {
+          paymentMethodId: id,
+        },
+      };
+    }).filter((operation) => operation) as FunctionRunResult["operations"];
 
     if (operations.length === 0) {
       return NO_CHANGES;

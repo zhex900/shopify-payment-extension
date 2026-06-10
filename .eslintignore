@@ -4,6 +4,6 @@ public/build
 dist/*
 */*.yml
 .shopify
-sst.config.ts
+.vercel
 */*/dist/*
 extensions/payment-customization/dist/function.js

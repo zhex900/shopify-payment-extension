@@ -4,39 +4,21 @@ on:
     branches:
       - main
 jobs:
-  deploy:
+  shopify-deploy:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    environment: "development"
-    permissions:
-      contents: read
-      id-token: write
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
-          role-session-name: github-role-session
-          aws-region: ${{ vars.AWS_REGION }}
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: Install dependencies
         run: |
-          curl -fsSL https://ion.sst.dev/install | bash
           npm install -g @shopify/cli
           npm install
-      - name: Deploy
-        shell: 'script -q -e -c "bash {0}"'
+      - name: Deploy Shopify app + payment-customization function
         env:
-          # Token from the Partner Dashboard
           SHOPIFY_CLI_PARTNERS_TOKEN: ${{ secrets.SHOPIFY_CLI_PARTNERS_TOKEN }}
-          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
-          SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
-          SHOPIFY_API_SECRET: ${{ secrets.SHOPIFY_API_SECRET }}
-          STAGE: "prod"
         run: |
-          aws s3 ls
-          sst unlock
-          sh scripts/deploy.sh
+          shopify app deploy --force \
+            --source-control-url "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"

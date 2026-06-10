@@ -1,4 +1,5 @@
-api_version = "2024-01"
+api_version = "2026-04"
+uid = "4f8a281d-8599-ed4f-dd32-1297c2872b96939fbf00"
 
 [[extensions]]
 handle = "payment-customization"
@@ -14,11 +15,3 @@ type = "function"
   [extensions.build]
   command = ""
   path = "dist/function.wasm"
-
-  [extensions.ui.paths]
-  create = "/"
-  details = "/"
-
-  [extensions.input.variables]
-  namespace = "payment-customization"
-  key = "function-configuration"
