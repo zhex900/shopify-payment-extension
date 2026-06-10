@@ -44,79 +44,83 @@ const mockInput = {
 };
 
 describe("payment customization function", () => {
-  it("shows only Pay by invoice for tagged customers", () => {
+  it("shows pay by invoice and hides other managed manual methods for tagged customers", () => {
     const result = run(mockInput);
-    expect(result.operations).toHaveLength(2);
-    expect(result.operations).toEqual(
-      expect.arrayContaining([
-        {
-          hide: {
-            paymentMethodId:
-              "gid://shopify/PaymentCustomizationPaymentMethod/5",
-          },
-        },
+    expect(result).toEqual({
+      operations: [
         {
           hide: {
             paymentMethodId:
               "gid://shopify/PaymentCustomizationPaymentMethod/3",
           },
         },
-      ]),
-    );
+        {
+          hide: {
+            paymentMethodId:
+              "gid://shopify/PaymentCustomizationPaymentMethod/5",
+          },
+        },
+      ],
+    });
   });
 
-  it("hides all managed manual methods for customers without the tag", () => {
+  it("hides all managed manual methods when customer lacks the tag", () => {
     const result = run({
       ...mockInput,
       cart: {
         buyerIdentity: {
           customer: {
-            hasTags: [],
+            hasTags: [
+              {
+                hasTag: false,
+                tag: "pay by invoice",
+              },
+            ],
           },
         },
       },
     });
 
-    expect(result.operations).toHaveLength(3);
-    expect(result.operations).toEqual(
-      expect.arrayContaining([
-        {
-          hide: {
-            paymentMethodId:
-              "gid://shopify/PaymentCustomizationPaymentMethod/5",
-          },
-        },
-        {
-          hide: {
-            paymentMethodId:
-              "gid://shopify/PaymentCustomizationPaymentMethod/3",
-          },
-        },
+    expect(result).toEqual({
+      operations: [
         {
           hide: {
             paymentMethodId:
               "gid://shopify/PaymentCustomizationPaymentMethod/4",
           },
         },
-      ]),
-    );
+        {
+          hide: {
+            paymentMethodId:
+              "gid://shopify/PaymentCustomizationPaymentMethod/3",
+          },
+        },
+        {
+          hide: {
+            paymentMethodId:
+              "gid://shopify/PaymentCustomizationPaymentMethod/5",
+          },
+        },
+      ],
+    });
   });
 
   it("hides all managed manual methods for guests", () => {
     const result = run({
       ...mockInput,
       cart: {
-        buyerIdentity: null,
+        buyerIdentity: {
+          customer: null,
+        },
       },
     });
 
-    expect(result.operations).toHaveLength(3);
-    expect(result.operations).toEqual(
-      expect.arrayContaining([
+    expect(result).toEqual({
+      operations: [
         {
           hide: {
             paymentMethodId:
-              "gid://shopify/PaymentCustomizationPaymentMethod/5",
+              "gid://shopify/PaymentCustomizationPaymentMethod/4",
           },
         },
         {
@@ -128,10 +132,10 @@ describe("payment customization function", () => {
         {
           hide: {
             paymentMethodId:
-              "gid://shopify/PaymentCustomizationPaymentMethod/4",
+              "gid://shopify/PaymentCustomizationPaymentMethod/5",
           },
         },
-      ]),
-    );
+      ],
+    });
   });
 });

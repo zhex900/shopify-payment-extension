@@ -31,27 +31,20 @@ export const PAY_BY_INVOICE_METHOD = "Pay by invoice";
  * Manual payment methods this function manages.
  * Non-tagged customers have all of these hidden; tagged customers see only PAY_BY_INVOICE_METHOD.
  */
-export const MANAGED_MANUAL_PAYMENT_METHODS = [
-  PAY_BY_INVOICE_METHOD,
-  "Cash on Delivery (COD)",
-  "Bank Deposit",
-] as const;
+export const MANAGED_MANUAL_PAYMENT_METHODS = [PAY_BY_INVOICE_METHOD] as const;
 
 export function run(input: RunInput): FunctionRunResult {
   try {
-    const hasTags = input.cart.buyerIdentity?.customer?.hasTags;
-
-    const authorized =
-      hasTags &&
-      hasTags.length > 0 &&
-      hasTags.filter((tag) => !tag.hasTag).length === 0;
+    const hasPayByInvoiceTag =
+      input.cart.buyerIdentity?.customer?.hasTags?.some(
+        (tag) =>
+          tag.hasTag &&
+          tag.tag.toLowerCase() === PAY_BY_INVOICE_TAG.toLowerCase(),
+      ) ?? false;
 
     const operations = MANAGED_MANUAL_PAYMENT_METHODS.map((method) => {
       const id = input.paymentMethods.find((m) => m.name.includes(method))?.id;
-      if (
-        !id ||
-        (authorized && method === PAY_BY_INVOICE_METHOD)
-      ) {
+      if (!id || (hasPayByInvoiceTag && method === PAY_BY_INVOICE_METHOD)) {
         return undefined;
       }
       return {

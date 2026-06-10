@@ -2,7 +2,6 @@
 
 client_id = "57b6e209afc603655aedaa6ac555309f"
 name = "payment"
-handle = "payment-113"
 application_url = "https://shopify.dev/apps/default-app-home"
 embedded = false
 
@@ -11,7 +10,7 @@ automatically_update_urls_on_dev = true
 dev_store_url = "standbox.myshopify.com"
 
 [access_scopes]
-scopes = ""
+scopes = "write_payment_customizations"
 
 [auth]
 redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]

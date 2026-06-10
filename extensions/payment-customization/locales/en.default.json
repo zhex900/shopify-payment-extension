@@ -1,4 +1,4 @@
 {
-  "name": "Pay by invoice for tagged customers",
-  "description": "Shows Pay by invoice at checkout only for customers with the pay by invoice tag."
+  "name": "payment-customization",
+  "description": "payment-customization"
 }

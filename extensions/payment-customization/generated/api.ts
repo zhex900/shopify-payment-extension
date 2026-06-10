@@ -1,10 +1,9 @@
+/** Internal type. DO NOT USE DIRECTLY. */
+type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+/** Internal type. DO NOT USE DIRECTLY. */
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -16,32 +15,32 @@ export type Scalars = {
    * Represents an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)-encoded date string.
    * For example, September 7, 2019 is represented as `"2019-07-16"`.
    */
-  Date: { input: any; output: any; }
+  Date: { input: unknown; output: unknown; }
   /**
    * Represents an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)-encoded date and time string.
    * For example, 3:50 pm on September 7, 2019 in the time zone of UTC (Coordinated Universal Time) is
    * represented as `"2019-09-07T15:50:00Z`".
    */
-  DateTime: { input: any; output: any; }
+  DateTime: { input: unknown; output: unknown; }
   /**
    * A subset of the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format that
    * includes the date and time but not the timezone which is determined from context.
    *
    * For example, "2018-01-01T00:00:00".
    */
-  DateTimeWithoutTimezone: { input: any; output: any; }
+  DateTimeWithoutTimezone: { input: unknown; output: unknown; }
   /**
    * A signed decimal number, which supports arbitrary precision and is serialized as a string.
    *
    * Example values: `"29.99"`, `"29.999"`.
    */
-  Decimal: { input: any; output: any; }
+  Decimal: { input: unknown; output: unknown; }
   /**
    * A function-scoped handle to a refer a resource.
    * The Handle type appears in a JSON response as a String, but it is not intended to be human-readable.
    * Example value: `"10079785100"`
    */
-  Handle: { input: any; output: any; }
+  Handle: { input: unknown; output: unknown; }
   /**
    * A [JSON](https://www.json.org/json-en.html) object.
    *
@@ -57,15 +56,15 @@ export type Scalars = {
    *   }
    * }`
    */
-  JSON: { input: any; output: any; }
+  JSON: { input: unknown; output: unknown; }
   /**
    * A subset of the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format that
    * includes the time but not the date or timezone which is determined from context.
    * For example, "05:43:21".
    */
-  TimeWithoutTimezone: { input: any; output: any; }
+  TimeWithoutTimezone: { input: unknown; output: unknown; }
   /** A void type that can be used to return a null value from a mutation. */
-  Void: { input: any; output: any; }
+  Void: { input: unknown; output: unknown; }
 };
 
 /**
@@ -3131,9 +3130,7 @@ export enum WeightUnit {
   Pounds = 'POUNDS'
 }
 
-export type RunInputVariables = Exact<{
-  tag: Scalars['String']['input'];
-}>;
+export type RunInputVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunInput = { __typename?: 'Input', cart: { __typename?: 'Cart', buyerIdentity?: { __typename?: 'BuyerIdentity', customer?: { __typename?: 'Customer', id: string, displayName: string, email?: string | null, hasTags: Array<{ __typename?: 'HasTagResponse', hasTag: boolean, tag: string }>, metafield?: { __typename?: 'Metafield', value: string } | null } | null, purchasingCompany?: { __typename?: 'PurchasingCompany', company: { __typename?: 'Company', name: string } } | null } | null, cost: { __typename?: 'CartCost', totalAmount: { __typename?: 'MoneyV2', amount: any } } }, paymentMethods: Array<{ __typename?: 'PaymentCustomizationPaymentMethod', id: string, name: string }>, paymentCustomization: { __typename?: 'PaymentCustomization', metafield?: { __typename?: 'Metafield', value: string } | null } };
+export type RunInput = { cart: { buyerIdentity: { customer: { hasTags: Array<{ hasTag: boolean, tag: string }> } | null } | null }, paymentMethods: Array<{ id: string, name: string }> };
